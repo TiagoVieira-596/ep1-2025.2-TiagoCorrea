@@ -1,10 +1,12 @@
-package classes;
+package br.hospital.utils;
+import java.io.IOException;
+
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
-import java.io.IOException;
 
 public class Inputs {
+  // lê o que o usuario está digitando no terminal e o altera
   public static String lerInput(Screen screen, int col, int row) throws IOException {
     StringBuilder input = new StringBuilder();
     KeyStroke tecla;
