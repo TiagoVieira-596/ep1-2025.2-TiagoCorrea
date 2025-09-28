@@ -9,12 +9,12 @@ import br.hospital.menu.Menu;
 import br.hospital.utils.Inputs;
 
 public class Paciente extends Pessoa{
-  private ArrayList<Consulta> historico;
+  private ArrayList<Consulta> consultas;
   private ArrayList<String> internacoes;
 
   public Paciente(String nome, String cpf, int idade) {
     super(nome, cpf, idade);
-    this.historico = new ArrayList<>();
+    this.consultas = new ArrayList<>();
     this.internacoes = new ArrayList<>();
   }
 
@@ -40,11 +40,11 @@ public class Paciente extends Pessoa{
     return dados;
   }
 
-  public void setHistorico(ArrayList<Consulta> historico) {
-    this.historico = historico;
+  public void setConconsultas(ArrayList<Consulta> consultas) {
+    this.consultas = consultas;
   }
-  public ArrayList<Consulta> getHistorico() {
-    return historico;
+  public ArrayList<Consulta> getConconsultas() {
+    return consultas;
   }
 
   public void setInternacoes(ArrayList<String> internacoes) {

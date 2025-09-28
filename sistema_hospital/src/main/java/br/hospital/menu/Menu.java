@@ -11,7 +11,9 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import br.hospital.enums.PlanoDeSaude;
 import br.hospital.model.Consulta;
+import br.hospital.model.Internacao;
 import br.hospital.model.Medico;
 import br.hospital.model.Paciente;
 
@@ -66,7 +68,10 @@ public class Menu {
         tela.clear();
         TextGraphics tg = tela.newTextGraphics();
         switch (item) {
-          case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Voltar"), "O que deseja fazer?");
+          case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Voltar"), "O que deseja fazer?");
+          case "Médico" -> criarMenu(Arrays.asList("Cadastrar médico", "Internar paciente", "Voltar"), "O que deseja fazer?");
+          case "Virar paciente especial" -> criarMenu(PlanoDeSaude.listarPlanos(), "O que deseja fazer?");
+          case "Internar paciente" -> Internacao.realizarInternacao(tg, tela);
           case "Agendar consulta" -> Consulta.agendarConsulta(tg, tela);
           case "Cadastrar paciente" -> Paciente.cadastroPaciente(tg, tela);
           case "Cadastrar médico" -> Medico.cadastroMedico(tg, tela);

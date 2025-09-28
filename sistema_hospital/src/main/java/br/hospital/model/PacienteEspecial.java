@@ -1,18 +1,20 @@
 package br.hospital.model;
 
+import br.hospital.enums.PlanoDeSaude;
+
 public class PacienteEspecial extends Paciente {
-  private PlanoDeSaude plano_de_saude;
-  public PacienteEspecial(String nome, String cpf, int idade, PlanoDeSaude plano_de_saude) {
+  private PlanoDeSaude planoDeSaude;
+  public PacienteEspecial(String nome, String cpf, int idade, PlanoDeSaude planoDeSaude) {
     super(nome, cpf, idade);
-    this.plano_de_saude = plano_de_saude;
+    this.planoDeSaude = planoDeSaude;
   }
 
   private PlanoDeSaude getPlanoDeSaude() {
-    return plano_de_saude;
+    return planoDeSaude;
   }
 
   @Override
   public String toString() {
-    return "Paciente Especial: " + super.toString() + " Plano de Saúde: " + plano_de_saude;
+    return "Paciente Especial: " + super.toString() + " Plano de Saúde: " + planoDeSaude;
   }
 }
