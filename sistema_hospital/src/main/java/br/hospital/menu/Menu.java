@@ -68,9 +68,9 @@ public class Menu {
         tela.clear();
         TextGraphics tg = tela.newTextGraphics();
         switch (item) {
-          case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Voltar"), "O que deseja fazer?");
-          case "Médico" -> criarMenu(Arrays.asList("Cadastrar médico", "Internar paciente", "Voltar"), "O que deseja fazer?");
-          case "Virar paciente especial" -> criarMenu(PlanoDeSaude.listarPlanos(), "O que deseja fazer?");
+          case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar Consultas", "Cancelar Consulta", "Voltar"), "O que deseja fazer?");
+          case "Médico" -> criarMenu(Arrays.asList("Cadastrar médico", "Concluir Consulta", "Cancelar Consulta", "Internar paciente", "Cancelar internação", "Voltar"), "O que deseja fazer?");
+          case "Virar paciente especial" -> criarMenu(PlanoDeSaude.listarPlanos(), "Que plano você tem?");
           case "Internar paciente" -> Internacao.realizarInternacao(tg, tela);
           case "Agendar consulta" -> Consulta.agendarConsulta(tg, tela);
           case "Cadastrar paciente" -> Paciente.cadastroPaciente(tg, tela);

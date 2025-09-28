@@ -35,7 +35,7 @@ public class Internacao {
 
     tg.putString(2, 3, "Data de internação:");
     tela.refresh();
-    String dataDeEntrada = Inputs.lerInput(tela, 17, 3);
+    String dataDeEntrada = Inputs.lerInput(tela, 22, 3);
 
     tg.putString(2, 4, "Quarto:");
     tela.refresh();
