@@ -1,4 +1,6 @@
 package br.hospital.enums;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum PlanoDeSaude {
   UNIMED("Unimed", 1, 0.15),
@@ -26,15 +28,18 @@ public enum PlanoDeSaude {
   public double getDesconto() {
     return desconto;
   }
-  public double getId() {
+  public int getId() {
       return id;
   }
-  public static PlanoDeSaude getPorId(int id) {
-      for (PlanoDeSaude cdd : PlanoDeSaude.values()) {
-          if (cdd.getId() == id) {
-              return cdd;
-          }
-      }
-      throw new IllegalArgumentException("Código de plano inválido: " + id);
+  public static List<String> listarPlanos() {
+    List<String> listaDePlanos = new ArrayList<>();
+    for (PlanoDeSaude plano : PlanoDeSaude.values()) {
+        listaDePlanos.add(plano.getNome());
+    }
+    return listaDePlanos;
+  }
+  @Override
+    public String toString() {
+        return "Nome: " + name().charAt(0) + name().substring(1).toLowerCase() + " Id: " + id + " Desconto: " + desconto;
   }
 }
