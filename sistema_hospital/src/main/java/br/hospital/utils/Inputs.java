@@ -72,7 +72,7 @@ public class Inputs {
     tg.putString(col, row, mensagem);
     screen.refresh();
     Menu.pausa(1500);
-    tg.putString(col, row, " ".repeat(40));
+    tg.putString(col, row, " ".repeat(120));
     screen.refresh();
   }
 }

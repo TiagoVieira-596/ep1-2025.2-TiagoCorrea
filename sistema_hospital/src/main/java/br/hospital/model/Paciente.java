@@ -26,17 +26,17 @@ public class Paciente extends Pessoa{
 
     tg.putString(2, 2, "CPF do paciente:");
     tela.refresh();
-    String cpf = Inputs.lerInput(tela, 19, 2, Verificador::numeroValido, "Nome inválido: use apenas letras.");
+    String cpf = Inputs.lerInput(tela, 19, 2, Verificador::cpfValido, "CPF inválido.");
 
     tg.putString(2, 3, "Idade do paciente:");
     tela.refresh();
-    String idade = Inputs.lerInput(tela, 21, 3);
+    String idade = Inputs.lerInput(tela, 21, 3, Verificador::idadeValida, "Idade inválida: a idade deve ser um número positivo");
 
     tg.putString(2, 5, ("Paciente cadastrado!"));
     tela.refresh();
     tg.putString(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
     tela.refresh();
-    String[] dados = {nome, cpf, idade};
+    String[] dados = {nome.toUpperCase(), cpf, idade};
     Menu.pausa(1000);
     return dados;
   }

@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.Screen;
 
 import br.hospital.menu.Menu;
 import br.hospital.utils.Inputs;
+import br.hospital.utils.Verificador;
 
 public class Medico extends Pessoa{
   private String crm;
@@ -24,19 +25,19 @@ public class Medico extends Pessoa{
   public static String[] cadastroMedico(TextGraphics tg, Screen tela) throws IOException {
     tg.putString(2, 1, "Nome do médico:");
     tela.refresh();
-    String nome = Inputs.lerInput(tela, 18, 1);
+    String nome = Inputs.lerInput(tela, 18, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
     tg.putString(2, 2, "CRM do médico:");
     tela.refresh();
-    String crm = Inputs.lerInput(tela, 17, 2);
+    String crm = Inputs.lerInput(tela, 17, 2, Verificador::crmValido, "CRM inválido.");
 
     tg.putString(2, 3, "Especialidade do médico:");
     tela.refresh();
-    String especialidade = Inputs.lerInput(tela, 27, 3);
+    String especialidade = Inputs.lerInput(tela, 27, 3, Verificador::especialidadeValida, "Especialidade inválida.");
 
     tg.putString(2, 4, "Preço da consulta:");
     tela.refresh();
-    String custo = Inputs.lerInput(tela, 21, 4);
+    String custo = Inputs.lerInput(tela, 21, 4, Verificador::numeroValido, "Preço da consulta inválido: use apenas números.");
 
     tg.putString(2, 6, ("Médico cadastrado cadastrado!"));
     tela.refresh();

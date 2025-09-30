@@ -1,6 +1,23 @@
 package br.hospital.utils;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Set;
 
 public class Verificador {
+  private static final Set<String> ESTADOS_VALIDOS = Set.of(
+    "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
+    "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
+    "RS", "RO", "RR", "SC", "SP", "SE", "TO"
+  );
+  private static final Set<String> ESPECIALIDADES_VALIDAS = Set.of(
+    "CLÍNICO GERAL", "PEDIATRIA", "CARDIOLOGIA", "DERMATOLOGIA", "GINECOLOGIA",
+    "ORTOPEDIA", "NEUROLOGIA", "PSIQUIATRIA", "ENDOCRINOLOGIA", "OFTALMOLOGIA",
+    "UROLOGIA", "OTORRINOLARINGOLOGIA", "REUMATOLOGIA", "GASTROENTEROLOGIA", "ONCOLOGIA",
+    "INFECTOLOGIA", "NEFROLOGIA", "HEMATOLOGIA", "ANESTESIOLOGIA", "RADIOLOGIA"
+  );
+
   public static boolean cpfValido(String cpf) {
     String numerosCpf = cpf.replace(".", "").replace("-", "");
     if (!numerosCpf.matches("\\d{11}") || numerosCpf.matches("(\\d)\\1{10}")) {
@@ -22,13 +39,55 @@ public class Verificador {
     }
     return true;
   }
+
   public static boolean numeroValido(String idade) {
     return idade.matches("^\\d+$");
   }
+
   public static boolean idadeValida(String idade) {
     return idade.matches("^\\d{1,3}$");
   }
+
   public static boolean palavraValida(String resposta) {
-    return resposta.matches("^\\p{L}+$");
+    return resposta.matches("^[\\p{L}]+(\\s[\\p{L}]+)*$");
+  }
+
+  public static boolean crmValido(String crm) {
+
+    if (!crm.matches("^\\d{4,7}/[A-Z]{2}$")) return false;
+
+    String uf = crm.substring(crm.length() - 2);
+    return ESTADOS_VALIDOS.contains(uf);
+  }
+
+  public static boolean especialidadeValida(String especialidade) {
+    if (!palavraValida(especialidade)) {
+      return false;
+    }
+    return ESPECIALIDADES_VALIDAS.contains(especialidade.toUpperCase());
+  }
+
+  public static boolean dataValida(String data) {
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+      LocalDate dataInput = LocalDate.parse(data, formatador);
+      return !dataInput.isBefore(LocalDate.now());
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
+
+  public static boolean horarioValido(String horario) {
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("HH:mm");
+    try {
+      LocalTime.parse(horario.trim(), formatador);
+      return true;
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
+
+  public static boolean localValido(String local) {
+    return ESTADOS_VALIDOS.contains(local.toUpperCase());
   }
 }

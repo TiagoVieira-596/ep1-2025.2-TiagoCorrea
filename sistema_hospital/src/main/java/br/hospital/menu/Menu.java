@@ -53,8 +53,7 @@ public class Menu {
           switch (tecla.getKeyType()) {
               case ArrowUp -> selecionado = (selecionado - 1 + opcoes.size()) % opcoes.size();
               case ArrowDown -> selecionado = (selecionado + 1) % opcoes.size();
-              case Enter -> //  ação depende da opção selecionada
-                  escolhendo = lerEscolha(opcoes.get(selecionado), tela);
+              case Enter -> escolhendo = lerEscolha(opcoes.get(selecionado), tela);
               case Escape -> escolhendo = false;
           }
       }
