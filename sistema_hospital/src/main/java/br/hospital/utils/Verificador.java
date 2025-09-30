@@ -17,8 +17,15 @@ public class Verificador {
         if (resto != Character.getNumericValue(numerosCpf.charAt(9 + i))) {
           return false;
         }
+        numerosCpf += resto;
       }
     }
     return true;
+  }
+  public static boolean idadeValida(int idade) {
+    return idade >= 0;
+  }
+  public static boolean palavraValida(String resposta) {
+    return resposta.matches("^\\p{L}+$");
   }
 }
