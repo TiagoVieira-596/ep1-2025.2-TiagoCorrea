@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.Screen;
 
 import br.hospital.menu.Menu;
 import br.hospital.utils.Inputs;
+import br.hospital.utils.Verificador;
 
 public class Paciente extends Pessoa{
   private ArrayList<Consulta> consultas;
@@ -21,11 +22,11 @@ public class Paciente extends Pessoa{
   public static String[] cadastroPaciente(TextGraphics tg, Screen tela) throws IOException {
     tg.putString(2, 1, "Nome do paciente:");
     tela.refresh();
-    String nome = Inputs.lerInput(tela, 20, 1);
+    String nome = Inputs.lerInput(tela, 20, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
     tg.putString(2, 2, "CPF do paciente:");
     tela.refresh();
-    String cpf = Inputs.lerInput(tela, 19, 2);
+    String cpf = Inputs.lerInput(tela, 19, 2, Verificador::numeroValido, "Nome inválido: use apenas letras.");
 
     tg.putString(2, 3, "Idade do paciente:");
     tela.refresh();

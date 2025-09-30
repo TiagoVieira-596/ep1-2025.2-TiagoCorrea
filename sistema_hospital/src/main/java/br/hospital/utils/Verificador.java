@@ -22,8 +22,11 @@ public class Verificador {
     }
     return true;
   }
-  public static boolean idadeValida(int idade) {
-    return idade >= 0;
+  public static boolean numeroValido(String idade) {
+    return idade.matches("^\\d+$");
+  }
+  public static boolean idadeValida(String idade) {
+    return idade.matches("^\\d{1,3}$");
   }
   public static boolean palavraValida(String resposta) {
     return resposta.matches("^\\p{L}+$");
