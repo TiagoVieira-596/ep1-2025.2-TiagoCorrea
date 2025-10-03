@@ -4,7 +4,6 @@ import java.io.IOException;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-import br.hospital.enums.StatusConsulta;
 import br.hospital.menu.Menu;
 import br.hospital.utils.Inputs;
 import br.hospital.utils.Verificador;
@@ -15,12 +14,12 @@ public class Consulta {
   private final String data;
   private final String horario; 
   private final String local;
-  private final StatusConsulta status;
+  private final String status;
   private final double custo;
   private String diagnostico;
   private String prescricao;
 
-  public Consulta(Paciente paciente, Medico medico, String data, String horario, String local, StatusConsulta status, double custo) {
+  public Consulta(Paciente paciente, Medico medico, String data, String horario, String local, String status, double custo) {
     this.paciente = paciente;
     this.medico = medico;
     this.data = data;
@@ -54,7 +53,7 @@ public class Consulta {
     tg.putString(2, 7, ("Consulta agendada!"));
     tela.refresh();
     String[] dados = {cpf, nomeMedico, data, horario, local};
-    Menu.pausa(1000);
+    Menu.pausa();
     return dados;
   }
 

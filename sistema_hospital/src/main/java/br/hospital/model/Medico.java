@@ -44,7 +44,7 @@ public class Medico extends Pessoa{
     tg.putString(2, 7, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
     tela.refresh();
     String[] dados = {nome, crm, especialidade, custo};
-    Menu.pausa(1000);
+    Menu.pausa();
     return dados;
   }
 

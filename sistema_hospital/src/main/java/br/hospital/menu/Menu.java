@@ -11,11 +11,11 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import br.hospital.enums.PlanoDeSaude;
 import br.hospital.model.Consulta;
 import br.hospital.model.Internacao;
 import br.hospital.model.Medico;
 import br.hospital.model.Paciente;
+import br.hospital.model.PacienteEspecial;
 
 public class Menu {
   public static void criarMenu(List<String> opcoes, String mensagem) throws IOException {
@@ -68,7 +68,7 @@ public class Menu {
       switch (item) {
         case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar Consultas", "Cancelar Consulta", "Voltar"), "O que deseja fazer?");
         case "Médico" -> criarMenu(Arrays.asList("Cadastrar médico", "Concluir Consulta", "Cancelar Consulta", "Internar paciente", "Cancelar internação", "Voltar"), "O que deseja fazer?");
-        case "Virar paciente especial" -> criarMenu(PlanoDeSaude.listarPlanos(), "Que plano você tem?");
+        case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial(tg, tela);
         case "Internar paciente" -> Internacao.realizarInternacao(tg, tela);
         case "Agendar consulta" -> Consulta.agendarConsulta(tg, tela);
         case "Cadastrar paciente" -> Paciente.cadastroPaciente(tg, tela);
@@ -86,6 +86,14 @@ public class Menu {
       Thread.currentThread().interrupt();
     } catch (IllegalArgumentException e) {
       pausa(1000);
+    }
+  }
+
+  public static void pausa() {
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
     }
   }
 }

@@ -49,7 +49,7 @@ public class Internacao {
     tg.putString(2, 7, ("Internação realizada!"));
     tela.refresh();
     String[] dados = {cpf, crm, dataDeEntrada, quarto, custo};
-    Menu.pausa(1000);
+    Menu.pausa();
     return dados;
   }
 }

@@ -17,6 +17,9 @@ public class Verificador {
     "UROLOGIA", "OTORRINOLARINGOLOGIA", "REUMATOLOGIA", "GASTROENTEROLOGIA", "ONCOLOGIA",
     "INFECTOLOGIA", "NEFROLOGIA", "HEMATOLOGIA", "ANESTESIOLOGIA", "RADIOLOGIA"
   );
+  private static final Set<String> PLANOS_VALIDOS = Set.of(
+    "CASSI", "UNIMED", "NOTREDAME INTERMÉDICA", "AMIL", "SULAMÉRICA", "BRADESCO SAÚDE", "OUTRO"
+  );
 
   public static boolean cpfValido(String cpf) {
     String numerosCpf = cpf.replace(".", "").replace("-", "");
@@ -38,6 +41,10 @@ public class Verificador {
       }
     }
     return true;
+  }
+
+  public static Set<String> getPLANOS_VALIDOS() {
+    return PLANOS_VALIDOS;
   }
 
   public static boolean numeroValido(String idade) {
@@ -89,5 +96,9 @@ public class Verificador {
 
   public static boolean localValido(String local) {
     return ESTADOS_VALIDOS.contains(local.toUpperCase());
+  }
+
+  public static boolean planoDeSaudeValido(String plano) {
+    return PLANOS_VALIDOS.contains(plano.toUpperCase());
   }
 }

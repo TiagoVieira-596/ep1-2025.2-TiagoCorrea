@@ -37,7 +37,7 @@ public class Paciente extends Pessoa{
     tg.putString(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
     tela.refresh();
     String[] dados = {nome.toUpperCase(), cpf, idade};
-    Menu.pausa(1000);
+    Menu.pausa();
     return dados;
   }
 
