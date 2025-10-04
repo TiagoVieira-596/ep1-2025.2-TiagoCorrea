@@ -1,1 +1,11 @@
+br/hospital/model/Consulta.class
+br/hospital/utils/Verificador.class
+br/hospital/model/PacienteEspecial.class
+br/hospital/utils/Inputs.class
+br/hospital/model/Internacao.class
+br/hospital/model/Pessoa.class
+br/hospital/app/Main.class
 br/hospital/menu/Menu$1.class
+br/hospital/model/Paciente.class
+br/hospital/menu/Menu.class
+br/hospital/model/Medico.class
