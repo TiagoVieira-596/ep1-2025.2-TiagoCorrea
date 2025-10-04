@@ -11,9 +11,7 @@ import br.hospital.utils.Verificador;
 public class Internacao {
   private final Paciente paciente;
   private final Medico medicoResponsavel;
-  private final String dataDeEntrada;
-  private final String dataDeSaida; 
-  private final String quarto;
+  private final String dataDeEntrada, dataDeSaida, quarto;
   private final double custo;
 
   public Internacao(Paciente paciente, Medico medicoResponsavel, String dataDeEntrada, String dataDeSaida, String quarto, double custo) {

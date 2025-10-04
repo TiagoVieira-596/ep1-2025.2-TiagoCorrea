@@ -1,8 +1,7 @@
 package br.hospital.model;
 
 public class Pessoa {
-  private String nome;
-  private String cpf;
+  private String nome, cpf;
   private int idade;
 
   public Pessoa(String nome, String cpf, int idade) {

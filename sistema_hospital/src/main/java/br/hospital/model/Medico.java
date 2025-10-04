@@ -10,8 +10,7 @@ import br.hospital.utils.Inputs;
 import br.hospital.utils.Verificador;
 
 public class Medico extends Pessoa{
-  private String crm;
-  private String especialidade;
+  private String crm, especialidade;
   private double custo;
   private ArrayList<String> agenda;
 

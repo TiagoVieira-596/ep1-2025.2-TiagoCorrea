@@ -11,13 +11,9 @@ import br.hospital.utils.Verificador;
 public class Consulta {
   private final Paciente paciente;
   private final Medico medico;
-  private final String data;
-  private final String horario; 
-  private final String local;
-  private final String status;
+  private final String data, horario, local, status;
   private final double custo;
-  private String diagnostico;
-  private String prescricao;
+  private String diagnostico, prescricao;
 
   public Consulta(Paciente paciente, Medico medico, String data, String horario, String local, String status, double custo) {
     this.paciente = paciente;
