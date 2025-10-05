@@ -9,5 +9,5 @@ br/hospital/menu/Menu$1.class
 br/hospital/menu/Tela.class
 br/hospital/model/Paciente.class
 br/hospital/menu/Menu.class
-br/hospital/utils/Serializador.class
 br/hospital/model/Medico.class
+br/hospital/utils/RepositorioJson.class

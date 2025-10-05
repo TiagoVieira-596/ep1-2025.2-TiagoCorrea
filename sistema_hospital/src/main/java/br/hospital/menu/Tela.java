@@ -26,7 +26,7 @@ public class Tela {
       } else {
         System.err.println("Tela ou TextGraphics não configurados.");
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       System.err.println("Erro ao exibir mensagem na tela: " + e.getMessage());
     }
   }
@@ -39,7 +39,7 @@ public class Tela {
       } else {
         System.err.println("Tela ou TextGraphics não configurados.");
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       System.err.println("Erro ao exibir mensagem na tela: " + e.getMessage());
     }
   }

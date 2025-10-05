@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import br.hospital.menu.Menu;
 import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
-import br.hospital.utils.Serializador;
+import br.hospital.utils.RepositorioJson;
 import br.hospital.utils.Verificador;
 
 public class Medico extends Pessoa{
@@ -42,7 +42,8 @@ public class Medico extends Pessoa{
     Tela.exibirMensagem(2, 6, ("Médico cadastrado cadastrado!"));
     Tela.exibirMensagem(2, 7, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
     Medico novoMedico = new Medico(nome, cpf, Integer.parseInt(idade), crm, Double.parseDouble(custo));
-    Serializador.serializar(novoMedico, "dados_medicos.json", Medico[].class);
+    RepositorioJson repo = new RepositorioJson(Medico[].class, "dados_medicos.json");
+    repo.adicionar(novoMedico);
     Menu.pausa(1500);
   }
 

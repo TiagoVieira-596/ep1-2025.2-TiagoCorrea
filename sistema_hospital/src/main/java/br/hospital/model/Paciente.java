@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import br.hospital.menu.Menu;
 import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
-import br.hospital.utils.Serializador;
+import br.hospital.utils.RepositorioJson;
 import br.hospital.utils.Verificador;
 
 public class Paciente extends Pessoa{
@@ -31,8 +31,9 @@ public class Paciente extends Pessoa{
     Tela.exibirMensagem(2, 5, ("Paciente cadastrado!"));
     Tela.exibirMensagem(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
     Paciente novoPaciente = new Paciente(nome, cpf, Integer.parseInt(idade));
-    Serializador.serializar(novoPaciente, "dados_pacientes.json", Paciente[].class);
-    Menu.pausa();
+    RepositorioJson repo = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    repo.adicionar(novoPaciente);
+    Menu.pausa(1500);
   }
 
   public void setConconsultas(ArrayList<Consulta> consultas) {

@@ -1,16 +1,9 @@
 [
-	{
-		"consultas": [],
-		"internacoes": [],
-		"nome": "Tiago",
-		"cpf": "07629021160",
-		"idade": 18
-	},
-	{
-		"consultas": [],
-		"internacoes": [],
-		"nome": "Fabiano",
-		"cpf": "07629066180",
-		"idade": 15
-	}
+  {
+    "consultas": [],
+    "internacoes": [],
+    "nome": "tigas",
+    "cpf": "07629021160",
+    "idade": 18
+  }
 ]
