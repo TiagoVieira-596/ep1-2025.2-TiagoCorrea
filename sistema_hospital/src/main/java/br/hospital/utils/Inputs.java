@@ -2,77 +2,70 @@ package br.hospital.utils;
 import java.io.IOException;
 import java.util.function.Predicate;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
 
 import br.hospital.menu.Menu;
+import br.hospital.menu.Tela;
 public class Inputs {
   // lê o que o usuario está digitando no terminal e o altera, indicando erros nos inputs
-  public static String lerInput(Screen screen, int col, int row, Predicate<String> verificador, String mensagem) throws IOException {
+  public static String lerInput(int col, int row, Predicate<String> verificador, String mensagem) throws IOException {
     StringBuilder input = new StringBuilder();
-    TextGraphics tg = screen.newTextGraphics();
     KeyStroke tecla;
 
     while (true) {
-        tecla = screen.readInput();
+        tecla = Tela.lerInput();
 
         if (tecla.getKeyType() == KeyType.Enter) {
           if (verificador == null || verificador.test(input.toString())) {
             break;
           } else {
-            inputInvalido(tg, screen, col, row + 1, mensagem);
+            inputInvalido(col, row + 1, mensagem);
             continue;
           }
         } else if (tecla.getKeyType() == KeyType.Backspace && input.length() > 0) {
           input.deleteCharAt(input.length() - 1);
-          tg.putString(col + input.length(), row, " ");
+          Tela.exibirMensagem(col + input.length(), row, " ");
         } else if (tecla.getKeyType() == KeyType.Backspace && input.length() <= 0) {
 
         } else if (tecla.getCharacter() != null) {
           input.append(tecla.getCharacter());
         }
 
-        tg.putString(col, row, input.toString() + " ");
-        screen.refresh();
+        Tela.exibirMensagem(col, row, input.toString() + " ");
     }
 
     return input.toString().trim();
   }
 
   // lê o input sem verificar a informação dada
-  public static String lerInput(Screen screen, int col, int row) throws IOException {
+  public static String lerInput(int col, int row) throws IOException {
     StringBuilder input = new StringBuilder();
-    TextGraphics tg = screen.newTextGraphics();
     KeyStroke tecla;
 
     while (true) {
-        tecla = screen.readInput();
+        tecla = Tela.lerInput();
 
         if (tecla.getKeyType() == KeyType.Enter) {
           break;
         } else if (tecla.getKeyType() == KeyType.Backspace && input.length() > 0) {
           input.deleteCharAt(input.length() - 1);
-          tg.putString(col + input.length(), row, " ");
+          Tela.exibirMensagem(col + input.length(), row, " ");
         } else if (tecla.getKeyType() == KeyType.Backspace && input.length() <= 0) {
 
         } else if (tecla.getCharacter() != null) {
           input.append(tecla.getCharacter());
         }
 
-        tg.putString(col, row, input.toString() + " ");
-        screen.refresh();
+        Tela.exibirMensagem(col, row, input.toString() + " ");
     }
 
     return input.toString().trim();
   }
 
-  public static void inputInvalido(TextGraphics tg, Screen screen, int col, int row, String mensagem) throws IOException{
-    tg.putString(col, row, mensagem);
-    screen.refresh();
+  public static void inputInvalido(int col, int row, String mensagem) throws IOException{
+    Tela.exibirMensagem(col, row, mensagem);
     Menu.pausa(1500);
-    tg.putString(col, row, " ".repeat(120));
-    screen.refresh();
+    Tela.exibirMensagem(col, row, " ".repeat(120));
   }
 }

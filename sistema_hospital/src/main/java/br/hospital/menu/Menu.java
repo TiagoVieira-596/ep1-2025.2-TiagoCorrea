@@ -1,15 +1,10 @@
 package br.hospital.menu;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 
 import br.hospital.model.Consulta;
 import br.hospital.model.Internacao;
@@ -19,69 +14,65 @@ import br.hospital.model.PacienteEspecial;
 
 public class Menu {
   public static void criarMenu(List<String> opcoes, String mensagem) throws IOException {
-      Terminal terminal = new DefaultTerminalFactory().createTerminal();
-      Screen tela = new DefaultTerminalFactory().createScreen();
-      tela.startScreen();
-
       int selecionado = 0;
 
       boolean escolhendo = true;
       while (escolhendo) {
-          tela.clear();
-          TextGraphics tg = tela.newTextGraphics();
-          tg.putString(1, 0, mensagem);
-          tela.refresh();
+          Tela.limpar();
+          Tela.exibirMensagem(mensagem);
 
           // desenhar o menu
           for (int i = 0; i < opcoes.size(); i++) {
               if (i == selecionado) {
                 // deixar o selecionado destacado
-                  tg.setForegroundColor(TextColor.ANSI.WHITE);
-                  tg.setBackgroundColor(TextColor.ANSI.BLUE);
-                  tg.putString(2, 2 + i, opcoes.get(i), SGR.BOLD);
-                  tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+                  Tela.getTextGraphics().setForegroundColor(TextColor.ANSI.WHITE);
+                  Tela.getTextGraphics().setBackgroundColor(TextColor.ANSI.BLUE);
+                  Tela.getTextGraphics().putString(2, 2 + i, opcoes.get(i), SGR.BOLD);
+                  Tela.getTextGraphics().setBackgroundColor(TextColor.ANSI.DEFAULT);
               } else {
-                  tg.putString(2, 2 + i, opcoes.get(i));
+                  Tela.getTextGraphics().putString(2, 2 + i, opcoes.get(i));
               }
           }
 
-          tela.refresh();
+          Tela.atualizar();
 
           // ler o input
-          KeyStroke tecla = tela.readInput();
+          KeyStroke tecla = Tela.lerInput();
 
           switch (tecla.getKeyType()) {
               case ArrowUp -> selecionado = (selecionado - 1 + opcoes.size()) % opcoes.size();
               case ArrowDown -> selecionado = (selecionado + 1) % opcoes.size();
-              case Enter -> escolhendo = lerEscolha(opcoes.get(selecionado), tela);
+              case Enter -> escolhendo = lerEscolha(opcoes.get(selecionado));
               case Escape -> escolhendo = false;
           }
       }
-
-      tela.stopScreen();
-      terminal.close();
   }
 
-  private static boolean lerEscolha(String item, Screen tela) throws IOException {
-      tela.clear();
-      TextGraphics tg = tela.newTextGraphics();
+  private static boolean lerEscolha(String item) throws IOException {
+      Tela.limpar();
       switch (item) {
-        case "Paciente" -> criarMenu(Arrays.asList("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar Consultas", "Cancelar Consulta", "Voltar"), "O que deseja fazer?");
-        case "Médico" -> criarMenu(Arrays.asList("Cadastrar médico", "Concluir Consulta", "Cancelar Consulta", "Internar paciente", "Cancelar internação", "Voltar"), "O que deseja fazer?");
-        case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial(tg, tela);
-        case "Internar paciente" -> Internacao.realizarInternacao(tg, tela);
-        case "Agendar consulta" -> Consulta.agendarConsulta(tg, tela);
-        case "Cadastrar paciente" -> Paciente.cadastroPaciente(tg, tela);
-        case "Cadastrar médico" -> Medico.cadastroMedico(tg, tela);
-        case "Voltar" -> item = "Sair";
+        case "Paciente" -> criarMenu(List.of("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar Consultas", "Cancelar Consulta", "Voltar"), "O que deseja fazer?");
+        case "Médico" -> criarMenu(List.of("Cadastrar médico", "Concluir Consulta", "Cancelar Consulta", "Internar paciente", "Cancelar internação", "Voltar"), "O que deseja fazer?");
+        case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial();
+        case "Internar paciente" -> Internacao.realizarInternacao();
+        case "Agendar consulta" -> Consulta.agendarConsulta();
+        case "Cadastrar paciente" -> Paciente.cadastroPaciente();
+        case "Cadastrar médico" -> Medico.cadastroMedico();
+        case "Voltar" -> {
+          return false;
+        }
+        case "Sair" -> {
+          Tela.encerrarTela();
+          Tela.getTerminal().close();
+          System.exit(0);
+        }
       }
-
-      return !item.equals("Sair");
+      return true;
   }
 
   public static void pausa(int tempo) {
     try {
-        Thread.sleep(tempo);
+      Thread.sleep(tempo);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     } catch (IllegalArgumentException e) {
@@ -91,7 +82,7 @@ public class Menu {
 
   public static void pausa() {
     try {
-        Thread.sleep(1000);
+      Thread.sleep(1000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }

@@ -2,11 +2,10 @@ package br.hospital.model;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-
 import br.hospital.menu.Menu;
+import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
+import br.hospital.utils.Serializador;
 import br.hospital.utils.Verificador;
 
 public class Paciente extends Pessoa{
@@ -19,26 +18,21 @@ public class Paciente extends Pessoa{
     this.internacoes = new ArrayList<>();
   }
 
-  public static String[] cadastroPaciente(TextGraphics tg, Screen tela) throws IOException {
-    tg.putString(2, 1, "Nome do paciente:");
-    tela.refresh();
-    String nome = Inputs.lerInput(tela, 20, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
+  public static void cadastroPaciente() throws IOException {
+    Tela.exibirMensagem(2, 1, "Nome do paciente:");
+    String nome = Inputs.lerInput(20, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
-    tg.putString(2, 2, "CPF do paciente:");
-    tela.refresh();
-    String cpf = Inputs.lerInput(tela, 19, 2, Verificador::cpfValido, "CPF inválido.");
+    Tela.exibirMensagem(2, 2, "CPF do paciente:");
+    String cpf = Inputs.lerInput(19, 2, Verificador::cpfValido, "CPF inválido.");
 
-    tg.putString(2, 3, "Idade do paciente:");
-    tela.refresh();
-    String idade = Inputs.lerInput(tela, 21, 3, Verificador::idadeValida, "Idade inválida: a idade deve ser um número positivo");
+    Tela.exibirMensagem(2, 3, "Idade do paciente:");
+    String idade = Inputs.lerInput(21, 3, Verificador::idadeValida, "Idade inválida: a idade deve ser um número positivo");
 
-    tg.putString(2, 5, ("Paciente cadastrado!"));
-    tela.refresh();
-    tg.putString(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
-    tela.refresh();
-    String[] dados = {nome.toUpperCase(), cpf, idade};
+    Tela.exibirMensagem(2, 5, ("Paciente cadastrado!"));
+    Tela.exibirMensagem(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
+    Paciente novoPaciente = new Paciente(nome, cpf, Integer.parseInt(idade));
+    Serializador.serializar(novoPaciente, "dados_pacientes.json", Paciente[].class);
     Menu.pausa();
-    return dados;
   }
 
   public void setConconsultas(ArrayList<Consulta> consultas) {

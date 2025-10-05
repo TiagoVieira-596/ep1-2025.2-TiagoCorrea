@@ -1,10 +1,8 @@
 package br.hospital.model;
 import java.io.IOException;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-
 import br.hospital.menu.Menu;
+import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
 import br.hospital.utils.Verificador;
 
@@ -23,29 +21,23 @@ public class Internacao {
     this.custo = custo;
   }
 
-  public static String[] realizarInternacao(TextGraphics tg, Screen tela) throws IOException {
-    tg.putString(2, 1, "CPF do paciente:");
-    tela.refresh();
-    String cpf = Inputs.lerInput(tela, 19, 1, Verificador::cpfValido, "CPF inválido.");
+  public static String[] realizarInternacao() throws IOException {
+    Tela.exibirMensagem(2, 1, "CPF do paciente:");
+    String cpf = Inputs.lerInput(19, 1, Verificador::cpfValido, "CPF inválido.");
 
-    tg.putString(2, 2, "CRM do médico:");
-    tela.refresh();
-    String crm = Inputs.lerInput(tela, 17, 2, Verificador::crmValido, "CRM inválido: siga o padrão 'código/estado'.");
+    Tela.exibirMensagem(2, 2, "CRM do médico:");
+    String crm = Inputs.lerInput(17, 2, Verificador::crmValido, "CRM inválido: siga o padrão 'código/estado'.");
 
-    tg.putString(2, 3, "Data de internação:");
-    tela.refresh();
-    String dataDeEntrada = Inputs.lerInput(tela, 22, 3, Verificador::dataValida, "Data inválida: não usar datas passadas, dia/mês/ano");
+    Tela.exibirMensagem(2, 3, "Data de internação:");
+    String dataDeEntrada = Inputs.lerInput(22, 3, Verificador::dataValida, "Data inválida: não usar datas passadas, dia/mês/ano");
 
-    tg.putString(2, 4, "Quarto:");
-    tela.refresh();
-    String quarto = Inputs.lerInput(tela, 10, 4, Verificador::numeroValido, "Quarto inexistente.");
+    Tela.exibirMensagem(2, 4, "Quarto:");
+    String quarto = Inputs.lerInput(10, 4, Verificador::numeroValido, "Quarto inexistente.");
 
-    tg.putString(2, 5, "Custo:");
-    tela.refresh();
-    String custo = Inputs.lerInput(tela, 9, 5, Verificador::numeroValido, "Custo de internação inválido.");
+    Tela.exibirMensagem(2, 5, "Custo:");
+    String custo = Inputs.lerInput(9, 5, Verificador::numeroValido, "Custo de internação inválido.");
 
-    tg.putString(2, 7, ("Internação realizada!"));
-    tela.refresh();
+    Tela.exibirMensagem(2, 7, ("Internação realizada!"));
     String[] dados = {cpf, crm, dataDeEntrada, quarto, custo};
     Menu.pausa();
     return dados;

@@ -2,11 +2,10 @@ package br.hospital.model;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-
 import br.hospital.menu.Menu;
+import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
+import br.hospital.utils.Serializador;
 import br.hospital.utils.Verificador;
 
 public class Medico extends Pessoa{
@@ -21,30 +20,30 @@ public class Medico extends Pessoa{
     this.agenda = new ArrayList<>();
   }
 
-  public static String[] cadastroMedico(TextGraphics tg, Screen tela) throws IOException {
-    tg.putString(2, 1, "Nome do médico:");
-    tela.refresh();
-    String nome = Inputs.lerInput(tela, 18, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
+  public static void cadastroMedico() throws IOException {
+    Tela.exibirMensagem(2, 1, "Nome do médico:");
+    String nome = Inputs.lerInput(18, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
-    tg.putString(2, 2, "CRM do médico:");
-    tela.refresh();
-    String crm = Inputs.lerInput(tela, 17, 2, Verificador::crmValido, "CRM inválido.");
+    Tela.exibirMensagem(2, 1, "CPF do médico:");
+    String cpf = Inputs.lerInput(18, 1, Verificador::cpfValido, "CPF inválido.");
 
-    tg.putString(2, 3, "Especialidade do médico:");
-    tela.refresh();
-    String especialidade = Inputs.lerInput(tela, 27, 3, Verificador::especialidadeValida, "Especialidade inválida.");
+    Tela.exibirMensagem(2, 1, "Idade do médico:");
+    String idade = Inputs.lerInput(18, 1, Verificador::idadeValida, "Idade inválida: use apenas números positivos.");
 
-    tg.putString(2, 4, "Preço da consulta:");
-    tela.refresh();
-    String custo = Inputs.lerInput(tela, 21, 4, Verificador::numeroValido, "Preço da consulta inválido: use apenas números.");
+    Tela.exibirMensagem(2, 2, "CRM do médico:");
+    String crm = Inputs.lerInput(17, 2, Verificador::crmValido, "CRM inválido.");
 
-    tg.putString(2, 6, ("Médico cadastrado cadastrado!"));
-    tela.refresh();
-    tg.putString(2, 7, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
-    tela.refresh();
-    String[] dados = {nome, crm, especialidade, custo};
-    Menu.pausa();
-    return dados;
+    Tela.exibirMensagem(2, 3, "Especialidade do médico:");
+    String especialidade = Inputs.lerInput(27, 3, Verificador::especialidadeValida, "Especialidade inválida.");
+
+    Tela.exibirMensagem(2, 4, "Preço da consulta:");
+    String custo = Inputs.lerInput(21, 4, Verificador::numeroValido, "Preço da consulta inválido: use apenas números.");
+
+    Tela.exibirMensagem(2, 6, ("Médico cadastrado cadastrado!"));
+    Tela.exibirMensagem(2, 7, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
+    Medico novoMedico = new Medico(nome, cpf, Integer.parseInt(idade), crm, Double.parseDouble(custo));
+    Serializador.serializar(novoMedico, "dados_medicos.json", Medico[].class);
+    Menu.pausa(1500);
   }
 
   public void setCrm(String crm) {
