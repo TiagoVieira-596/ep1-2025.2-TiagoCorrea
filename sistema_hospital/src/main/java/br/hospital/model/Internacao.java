@@ -40,7 +40,7 @@ public class Internacao {
     Tela.exibirMensagem(2, 5, "Custo:");
     String custo = Inputs.lerInput(9, 5, Verificador::numeroValido, "Custo de internação inválido.");
 
-    if (tentarRealizarInternacao(cpf, crm, dataDeEntrada, Integer.parseInt(quarto), Double.parseDouble(custo))) {
+    if (tentarRealizarInternacao(cpf.replace(".", "").replace("-", ""), crm, dataDeEntrada, Integer.parseInt(quarto), Double.parseDouble(custo))) {
       Tela.exibirMensagem(2, 7, ("Internação agendada!"));
     } else {
       Tela.exibirMensagem(2, 7, ("Não foi possível agendar a internação."));
