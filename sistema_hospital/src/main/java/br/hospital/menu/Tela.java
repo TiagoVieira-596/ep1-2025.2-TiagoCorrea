@@ -21,6 +21,7 @@ public class Tela {
   public static void exibirMensagem(String mensagem) {
     try {
       if (tg != null && tela != null) {
+        tg.putString(1, 0, "".repeat(120));
         tg.putString(1, 0, mensagem);
         tela.refresh();
       } else {
@@ -34,6 +35,7 @@ public class Tela {
   public static void exibirMensagem(int coluna, int linha, String mensagem) {
     try {
       if (tg != null && tela != null) {
+        tg.putString(coluna, linha, "".repeat(120));
         tg.putString(coluna, linha, mensagem);
         tela.refresh();
       } else {

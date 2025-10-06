@@ -1,0 +1,26 @@
+[
+	{
+		"crm": "123456/DF",
+		"custo": 2000.0,
+		"agenda": [],
+		"nome": "FABIANO",
+		"cpf": "07629066180",
+		"idade": 18
+	},
+	{
+		"crm": "12367/DF",
+		"custo": 3000.0,
+		"agenda": [],
+		"nome": "TIAGO VIEIRA",
+		"cpf": "07629021160",
+		"idade": 18
+	},
+	{
+		"crm": "1235/RS",
+		"custo": 30.0,
+		"agenda": [],
+		"nome": "TIÃO",
+		"cpf": "54035546020",
+		"idade": 89
+	}
+]

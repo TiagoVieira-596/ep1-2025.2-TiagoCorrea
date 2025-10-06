@@ -21,28 +21,28 @@ public class Medico extends Pessoa{
   }
 
   public static void cadastroMedico() throws IOException {
-    Tela.exibirMensagem(2, 1, "Nome do médico:");
-    String nome = Inputs.lerInput(18, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
+    Tela.exibirMensagem(2, 1, "Nome completo do médico:");
+    String nome = Inputs.lerInput(27, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
-    Tela.exibirMensagem(2, 1, "CPF do médico:");
-    String cpf = Inputs.lerInput(18, 1, Verificador::cpfValido, "CPF inválido.");
+    Tela.exibirMensagem(2, 2, "CPF do médico:");
+    String cpf = Inputs.lerInput(17, 2, Verificador::cpfValido, "CPF inválido.");
 
-    Tela.exibirMensagem(2, 1, "Idade do médico:");
-    String idade = Inputs.lerInput(18, 1, Verificador::idadeValida, "Idade inválida: use apenas números positivos.");
+    Tela.exibirMensagem(2, 3, "Idade do médico:");
+    String idade = Inputs.lerInput(19, 3, Verificador::idadeValida, "Idade inválida: use apenas números positivos.");
 
-    Tela.exibirMensagem(2, 2, "CRM do médico:");
-    String crm = Inputs.lerInput(17, 2, Verificador::crmValido, "CRM inválido.");
+    Tela.exibirMensagem(2, 4, "CRM do médico:");
+    String crm = Inputs.lerInput(17, 4, Verificador::crmValido, "CRM inválido.");
 
-    Tela.exibirMensagem(2, 3, "Especialidade do médico:");
-    String especialidade = Inputs.lerInput(27, 3, Verificador::especialidadeValida, "Especialidade inválida.");
+    Tela.exibirMensagem(2, 5, "Especialidade do médico:");
+    String especialidade = Inputs.lerInput(27, 5, Verificador::especialidadeValida, "Especialidade inválida.");
 
-    Tela.exibirMensagem(2, 4, "Preço da consulta:");
-    String custo = Inputs.lerInput(21, 4, Verificador::numeroValido, "Preço da consulta inválido: use apenas números.");
+    Tela.exibirMensagem(2, 6, "Preço da consulta:");
+    String custo = Inputs.lerInput(21, 6, Verificador::numeroValido, "Preço da consulta inválido: use apenas números.");
 
-    Tela.exibirMensagem(2, 6, ("Médico cadastrado cadastrado!"));
-    Tela.exibirMensagem(2, 7, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
-    Medico novoMedico = new Medico(nome, cpf, Integer.parseInt(idade), crm, Double.parseDouble(custo));
-    RepositorioJson repo = new RepositorioJson(Medico[].class, "dados_medicos.json");
+    Tela.exibirMensagem(2, 8, ("Médico cadastrado cadastrado!"));
+    Tela.exibirMensagem(2, 9, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
+    Medico novoMedico = new Medico(nome.toUpperCase(), cpf, Integer.parseInt(idade), crm, Double.parseDouble(custo));
+    RepositorioJson<Medico> repo = new RepositorioJson(Medico[].class, "dados_medicos.json");
     repo.adicionar(novoMedico);
     Menu.pausa(1500);
   }
@@ -73,6 +73,15 @@ public class Medico extends Pessoa{
   }
   public ArrayList<String> getAgenda() {
     return agenda;
+  }
+
+  public static Medico procurarNomeMedico(String nomeMedico) {
+    RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
+    return repoMedico.buscar(p -> p.getNome().equals(nomeMedico));
+  }
+  public static Medico procurarCrmMedico(String crmMedico) {
+    RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
+    return repoMedico.buscar(p -> p.getCrm().equals(crmMedico));
   }
 
   @Override

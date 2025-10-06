@@ -1,17 +1,17 @@
 package br.hospital.utils;
-import br.hospital.menu.Tela;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.Predicate;
+import br.hospital.menu.Tela;
 
 public class RepositorioJson<T> {
 
@@ -49,6 +49,25 @@ public class RepositorioJson<T> {
       Tela.exibirMensagem("Erro ao salvar arquivo: " + arquivo);
     }
   }
+
+  public void atualizar(Predicate<T> filtro, T novoObjeto) {
+    List<T> lista = listar();
+    boolean atualizado = false;
+
+    for (int i = 0; i < lista.size(); i++) {
+        if (filtro.test(lista.get(i))) {
+            lista.set(i, novoObjeto);
+            atualizado = true;
+            break;
+        }
+    }
+
+    if (atualizado) {
+        salvarTodos(lista);
+    } else {
+        Tela.exibirMensagem("Objeto para atualização não encontrado.");
+    }
+}
 
   public void adicionar(T objeto) {
     List<T> lista = listar();

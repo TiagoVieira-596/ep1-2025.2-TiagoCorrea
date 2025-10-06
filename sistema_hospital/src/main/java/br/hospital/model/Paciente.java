@@ -1,6 +1,7 @@
 package br.hospital.model;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.hospital.menu.Menu;
 import br.hospital.menu.Tela;
@@ -10,7 +11,7 @@ import br.hospital.utils.Verificador;
 
 public class Paciente extends Pessoa{
   private ArrayList<Consulta> consultas;
-  private ArrayList<String> internacoes;
+  private ArrayList<Internacao> internacoes;
 
   public Paciente(String nome, String cpf, int idade) {
     super(nome, cpf, idade);
@@ -19,8 +20,8 @@ public class Paciente extends Pessoa{
   }
 
   public static void cadastroPaciente() throws IOException {
-    Tela.exibirMensagem(2, 1, "Nome do paciente:");
-    String nome = Inputs.lerInput(20, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
+    Tela.exibirMensagem(2, 1, "Nome completo do paciente:");
+    String nome = Inputs.lerInput(29, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
 
     Tela.exibirMensagem(2, 2, "CPF do paciente:");
     String cpf = Inputs.lerInput(19, 2, Verificador::cpfValido, "CPF inválido.");
@@ -30,24 +31,40 @@ public class Paciente extends Pessoa{
 
     Tela.exibirMensagem(2, 5, ("Paciente cadastrado!"));
     Tela.exibirMensagem(2, 6, ("Nome: " + nome + " CPF: " + cpf + " Idade: " + idade));
-    Paciente novoPaciente = new Paciente(nome, cpf, Integer.parseInt(idade));
-    RepositorioJson repo = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    Paciente novoPaciente = new Paciente(nome.toUpperCase(), cpf.replace(".", "").replace("-", ""), Integer.parseInt(idade));
+    RepositorioJson<Paciente> repo = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
     repo.adicionar(novoPaciente);
     Menu.pausa(1500);
   }
 
-  public void setConconsultas(ArrayList<Consulta> consultas) {
-    this.consultas = consultas;
+  public void novaConsulta(Consulta consulta) {
+    if (consultas == null) {
+        consultas = new ArrayList<>();
+    }
+    consultas.add(consulta);
   }
-  public ArrayList<Consulta> getConconsultas() {
-    return consultas;
+  public List<Consulta> getConsultas() {
+    return new ArrayList<>(consultas);
   }
 
-  public void setInternacoes(ArrayList<String> internacoes) {
-    this.internacoes = internacoes;
+  public void novaInternacao(Internacao internacao) {
+    if (internacoes == null) {
+        internacoes = new ArrayList<>();
+    }
+    internacoes.add(internacao);
   }
-  public ArrayList<String> getInternacoes() {
-    return internacoes;
+  public List<Internacao> getInternacoes() {
+    return new ArrayList<>(internacoes);
+  }
+
+  public static Paciente procurarCpfPaciente(String cpf) {
+    RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
+    Paciente paciente = repoPacienteEspecial.buscar(p -> p.getCpf().equals(cpf));
+    if (paciente == null) {
+      paciente = repoPaciente.buscar(p -> p.getCpf().equals(cpf));
+    }
+    return paciente;
   }
 
   @Override

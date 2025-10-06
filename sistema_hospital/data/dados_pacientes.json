@@ -2,7 +2,35 @@
   {
     "consultas": [],
     "internacoes": [],
-    "nome": "tigas",
+    "nome": "MARCIA",
+    "cpf": "54035546020",
+    "idade": 53
+  },
+  {
+    "consultas": [
+      {
+        "cpfPaciente": "07629021160",
+        "nomeMedico": "FABIANO",
+        "data": "12/01/2026",
+        "horario": "12:21",
+        "local": "DF",
+        "custo": 2000.0,
+        "status": "CONCLUÍDA",
+        "diagnostico": "vuk vuk na onda maluca.",
+        "prescricao": "normal pills."
+      }
+    ],
+    "internacoes": [
+      {
+        "cpfPaciente": "07629021160",
+        "crm": "123456/DF",
+        "dataDeEntrada": "12/11/2025",
+        "quarto": 1,
+        "custo": 2000.0,
+        "dataDeSaida": "Ainda internado"
+      }
+    ],
+    "nome": "TIAGO",
     "cpf": "07629021160",
     "idade": 18
   }
