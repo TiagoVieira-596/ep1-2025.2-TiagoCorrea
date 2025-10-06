@@ -2,10 +2,12 @@ package br.hospital.model;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import br.hospital.menu.Menu;
 import br.hospital.menu.Tela;
 import br.hospital.utils.Inputs;
+import br.hospital.utils.RepositorioJson;
 import br.hospital.utils.Verificador;
 
 public class PacienteEspecial extends Paciente {
@@ -25,9 +27,16 @@ static {
     super(nome, cpf, idade);
     this.planoDeSaude = planoDeSaude;
   }
+  public PacienteEspecial(String nome, String cpf, int idade, String planoDeSaude, List<Consulta> consultas, List<Internacao> internacoes) {
+    super(nome, cpf, idade, consultas, internacoes);
+    this.planoDeSaude = planoDeSaude;
+  }
 
   public String getPlanoDeSaude() {
     return planoDeSaude;
+  }
+  public void setPlanoDeSaude(String planoDeSaude) {
+    this.planoDeSaude = planoDeSaude;
   }
   public static HashMap<String, Integer> getDescontos() {
     return descontos;
@@ -39,10 +48,34 @@ static {
       Tela.exibirMensagem(1, linhaAtual, plano);
       linhaAtual += 1;
     }
-    Tela.exibirMensagem(1, linhaAtual + 2, "Que plano você vai cadastrar?");
-    String plano = Inputs.lerInput(31, linhaAtual + 2, Verificador::planoDeSaudeValido, "Digite um dos planos possíveis.");
-    Tela.exibirMensagem(1, linhaAtual + 3, "Plano cadastrado!");
-    Menu.pausa();
+    Tela.exibirMensagem(1, linhaAtual + 2, "CPF do paciente:");
+    String cpfPaciente = Inputs.lerInput(19, linhaAtual + 2, Verificador::cpfValido, "CPF inválido.");
+    Tela.exibirMensagem(1, linhaAtual + 3, "Que plano você vai cadastrar?");
+    String plano = Inputs.lerInput(31, linhaAtual + 3, Verificador::planoDeSaudeValido, "Digite um dos planos possíveis.");
+
+    if (tentarCriarPacienteEspecial(cpfPaciente.replace(".", "").replace("-", ""), plano.toUpperCase())) {
+      Tela.exibirMensagem(1, linhaAtual + 4, "Plano cadastrado!");
+    } else {
+      Tela.exibirMensagem(1, linhaAtual + 4, "Paciente não encontrado / Plano atual já é esse.");
+    }
+    Menu.pausa(2000);
+  }
+
+  public static boolean tentarCriarPacienteEspecial(String cpfPaciente, String plano) {
+    RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
+    Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
+    if (paciente == null) return false;
+    if (paciente instanceof PacienteEspecial pacienteEspecial) {
+      if (plano.equals(((PacienteEspecial) paciente).getPlanoDeSaude())) return false;
+      pacienteEspecial.setPlanoDeSaude(plano);
+      repoPacienteEspecial.atualizar(p -> p.getCpf().equals(cpfPaciente), (PacienteEspecial) paciente);
+    } else {
+      repoPaciente.remover(p -> p.getCpf().equals(cpfPaciente));
+      PacienteEspecial novoPacienteEspecial = new PacienteEspecial(paciente.getNome(), paciente.getCpf(), paciente.getIdade(), plano, paciente.getConsultas(), paciente.getInternacoes());
+      repoPacienteEspecial.adicionar(novoPacienteEspecial);
+    }
+    return true;
   }
 
   @Override
