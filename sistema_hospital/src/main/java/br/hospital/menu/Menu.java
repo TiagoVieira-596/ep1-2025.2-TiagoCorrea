@@ -51,12 +51,13 @@ public class Menu {
   private static boolean lerEscolha(String item) throws IOException {
       Tela.limpar();
       switch (item) {
-        case "Paciente" -> criarMenu(List.of("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar Consultas", "Cancelar Consulta", "Voltar"), "O que deseja fazer?");
+        case "Paciente" -> criarMenu(List.of("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar consultas", "Cancelar consulta", "Voltar"), "O que deseja fazer?");
         case "Médico" -> criarMenu(List.of("Cadastrar médico", "Concluir consulta", "Internar paciente", "Cancelar internação", "Voltar"), "O que deseja fazer?");
         case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial();
         case "Internar paciente" -> Internacao.realizarInternacao();
         case "Agendar consulta" -> Consulta.agendarConsulta();
         case "Concluir consulta" -> Consulta.concluirConsulta();
+        case "Cancelar consulta" -> Consulta.cancelarConsulta();
         case "Cadastrar paciente" -> Paciente.cadastroPaciente();
         case "Cadastrar médico" -> Medico.cadastroMedico();
         case "Voltar" -> {

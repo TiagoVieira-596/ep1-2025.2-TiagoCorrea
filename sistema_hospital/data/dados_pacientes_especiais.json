@@ -1,0 +1,41 @@
+[
+  {
+    "planoDeSaude": "CASSI",
+    "consultas": [
+      {
+        "cpfPaciente": "07629021160",
+        "nomeMedico": "FABIANO",
+        "data": "12/01/2026",
+        "horario": "12:21",
+        "local": "DF",
+        "custo": 2000.0,
+        "status": "CONCLUÍDA",
+        "diagnostico": "vuk vuk na onda maluca.",
+        "prescricao": "normal pills."
+      },
+      {
+        "cpfPaciente": "07629021160",
+        "nomeMedico": "FABIANO",
+        "data": "11/11/2025",
+        "horario": "12:00",
+        "local": "DF",
+        "custo": 0.0,
+        "status": "CANCELADA",
+        "diagnostico": "Sem diagnóstico",
+        "prescricao": "Sem prescrição"
+      }
+    ],
+    "internacoes": [
+      {
+        "cpfPaciente": "07629021160",
+        "dataDeEntrada": "12/11/2025",
+        "quarto": 1,
+        "custo": 2000.0,
+        "dataDeSaida": "Ainda internado"
+      }
+    ],
+    "nome": "TIAGO",
+    "cpf": "07629021160",
+    "idade": 18
+  }
+]

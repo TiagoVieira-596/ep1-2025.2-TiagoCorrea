@@ -67,7 +67,7 @@ public class RepositorioJson<T> {
     } else {
         Tela.exibirMensagem("Objeto para atualização não encontrado.");
     }
-}
+  }
 
   public void adicionar(T objeto) {
     List<T> lista = listar();
@@ -78,6 +78,12 @@ public class RepositorioJson<T> {
   public boolean remover(T objeto) {
     List<T> lista = listar();
     boolean removido = lista.remove(objeto);
+    salvarTodos(lista);
+    return removido;
+  }
+  public boolean remover(Predicate<T> filtro) {
+    List<T> lista = listar();
+    boolean removido = lista.removeIf(filtro);
     salvarTodos(lista);
     return removido;
   }

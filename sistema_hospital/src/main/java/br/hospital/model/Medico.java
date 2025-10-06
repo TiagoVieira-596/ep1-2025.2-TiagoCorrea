@@ -41,7 +41,7 @@ public class Medico extends Pessoa{
 
     Tela.exibirMensagem(2, 8, ("Médico cadastrado cadastrado!"));
     Tela.exibirMensagem(2, 9, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
-    Medico novoMedico = new Medico(nome.toUpperCase(), cpf, Integer.parseInt(idade), crm, Double.parseDouble(custo));
+    Medico novoMedico = new Medico(nome.toUpperCase(), cpf.replace(".", "").replace("-", ""), Integer.parseInt(idade), crm, Double.parseDouble(custo));
     RepositorioJson<Medico> repo = new RepositorioJson(Medico[].class, "dados_medicos.json");
     repo.adicionar(novoMedico);
     Menu.pausa(1500);

@@ -18,6 +18,11 @@ public class Paciente extends Pessoa{
     this.consultas = new ArrayList<>();
     this.internacoes = new ArrayList<>();
   }
+  public Paciente(String nome, String cpf, int idade, List<Consulta> consultas, List<Internacao> internacoes) {
+    super(nome, cpf, idade);
+    this.consultas = new ArrayList<>(consultas);
+    this.internacoes = new ArrayList<>(internacoes);
+  }
 
   public static void cadastroPaciente() throws IOException {
     Tela.exibirMensagem(2, 1, "Nome completo do paciente:");
@@ -67,9 +72,18 @@ public class Paciente extends Pessoa{
     return paciente;
   }
 
+  public void atualizarPorCpf(String cpf) {
+    RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
+    if (this instanceof PacienteEspecial pacienteEspecial) {
+      repoPacienteEspecial.atualizar(p -> p.getCpf().equals(cpf), pacienteEspecial);
+    } else {
+      repoPaciente.atualizar(p -> p.getCpf().equals(cpf), this);
+    } 
+  }
+
   @Override
   public String toString() {
     return "Paciente: " + super.toString();
   }
-
 }
