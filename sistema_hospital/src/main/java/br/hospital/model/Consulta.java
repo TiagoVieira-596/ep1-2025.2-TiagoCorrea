@@ -43,7 +43,7 @@ public class Consulta {
     Tela.exibirMensagem(2, 5, "Local:");
     String local = Inputs.lerInput(9, 5, Verificador::localValido, "Local inválido: escolha um estado válido, exemplo 'DF'.");
 
-    if (tentarAgendarConsulta(cpf, nomeMedico.toUpperCase(), data, horario, local.toUpperCase())) {
+    if (tentarAgendarConsulta(cpf.replace(".", "").replace("-", ""), nomeMedico.toUpperCase(), data, horario, local.toUpperCase())) {
       Tela.exibirMensagem(2, 7, ("Consulta agendada!"));
     } else {
       Tela.exibirMensagem(2, 7, ("Não foi possível agendar a consulta."));
@@ -68,8 +68,32 @@ public class Consulta {
     Tela.exibirMensagem(2, 5, "Local:");
     String local = Inputs.lerInput(9, 5, Verificador::localValido, "Local inválido: escolha um estado válido, exemplo 'DF'.");
     
-    if (tentarConcluirConsultaPossivel(cpfPaciente, nomeMedico.toUpperCase(), data, horario, local.toUpperCase())) {
+    if (tentarConcluirConsultaPossivel(cpfPaciente.replace(".", "").replace("-", ""), nomeMedico.toUpperCase(), data, horario, local.toUpperCase())) {
       Tela.exibirMensagem(2, 9, ("Consulta Concluída!"));
+    } else {
+      Tela.exibirMensagem(2, 7, ("Não foi possível cancelar a consulta."));
+      Tela.exibirMensagem(2, 8, ("Verifique os dados da consulta"));
+    }
+    Menu.pausa(2000);
+  }
+  public static void cancelarConsulta() throws IOException {
+    Tela.exibirMensagem(2, 1, "CPF do paciente:");
+    String cpfPaciente = Inputs.lerInput(19, 1, Verificador::cpfValido, "CPF inválido.");
+
+    Tela.exibirMensagem(2, 2, "Nome do médico:");
+    String nomeMedico = Inputs.lerInput(18, 2, Verificador::palavraValida, "Nome Inválido: o nome deve conter apenas letras.");
+
+    Tela.exibirMensagem(2, 3, "Data:");
+    String data = Inputs.lerInput(8, 3, Verificador::dataValida, "Data inválida: não usar datas passadas, dia/mês/ano");
+
+    Tela.exibirMensagem(2, 4, "Horário:");
+    String horario = Inputs.lerInput(11, 4, Verificador::horarioValido, "Horário inválido. siga o padrão hh:mm");
+
+    Tela.exibirMensagem(2, 5, "Local:");
+    String local = Inputs.lerInput(9, 5, Verificador::localValido, "Local inválido: escolha um estado válido, exemplo 'DF'.");
+    
+    if (tentarCancelarConsultaPossivel(cpfPaciente.replace(".", "").replace("-", ""), nomeMedico.toUpperCase(), data, horario, local.toUpperCase())) {
+      Tela.exibirMensagem(2, 9, ("Consulta Cancelada."));
     } else {
       Tela.exibirMensagem(2, 7, ("Não foi possível cancelar a consulta."));
       Tela.exibirMensagem(2, 8, ("Verifique os dados da consulta"));
@@ -116,6 +140,7 @@ public class Consulta {
   public static boolean tentarAgendarConsulta(String cpfPaciente, String nomeMedico, String data, String horario, String local) {
     RepositorioJson<Consulta> repoConsulta = new RepositorioJson(Consulta[].class, "dados_consultas.json");
     RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
+    RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
@@ -127,21 +152,20 @@ public class Consulta {
       if (consulta.getData().equals(data) && consulta.getHorario().equals(horario) && consulta.getLocal().equals(local)) return false;
     }
     double custoConsulta = medico.getCusto();
-    if (paciente instanceof PacienteEspecial) {
+    if (paciente instanceof PacienteEspecial pacienteEspecial) {
       HashMap<String, Integer> descontos = PacienteEspecial.getDescontos();
-      int descontoPlano = descontos.get(((PacienteEspecial) paciente).getPlanoDeSaude());
+      int descontoPlano = descontos.get(pacienteEspecial.getPlanoDeSaude());
       custoConsulta *= (1 - (descontoPlano / 100.0));
     }
     Consulta consultaAgendada = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", custoConsulta);
     paciente.novaConsulta(consultaAgendada);
-    repoPaciente.atualizar(p -> p.getCpf().equals(cpfPaciente), paciente);
+    paciente.atualizarPorCpf(cpfPaciente);
     repoConsulta.adicionar(consultaAgendada);
     return true;
   }
 
   public static boolean tentarConcluirConsultaPossivel(String cpfPaciente, String nomeMedico, String data, String horario, String local) throws IOException {
     RepositorioJson<Consulta> repoConsulta = new RepositorioJson(Consulta[].class, "dados_consultas.json");
-    RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
@@ -160,7 +184,30 @@ public class Consulta {
             consultaPaciente.setDiagnostico(diagnostico);
             consultaPaciente.setPrescricao(prescrição);
             consultaPaciente.setStatus("CONCLUÍDA");
-            repoPaciente.atualizar(p -> p.getCpf().equals(cpfPaciente), paciente);
+            paciente.atualizarPorCpf(cpfPaciente);
+          }
+        }
+        repoConsulta.remover(consulta);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean tentarCancelarConsultaPossivel(String cpfPaciente, String nomeMedico, String data, String horario, String local) throws IOException {
+    RepositorioJson<Consulta> repoConsulta = new RepositorioJson(Consulta[].class, "dados_consultas.json");
+
+    Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
+    Medico medico = Medico.procurarNomeMedico(nomeMedico);
+    Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", 0);
+    List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
+    if (medico == null || paciente == null) return false;
+    for (Consulta consulta : consultasMedico) {
+      if (consulta.equals(dadosDaConsulta)) {
+        for (Consulta consultaPaciente : paciente.getConsultas()) {
+          if (consultaPaciente.equals(consulta)) {
+            consultaPaciente.setStatus("CANCELADA");
+            paciente.atualizarPorCpf(cpfPaciente);
           }
         }
         repoConsulta.remover(consulta);
