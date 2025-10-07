@@ -1,6 +1,6 @@
 package br.hospital.model;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import br.hospital.menu.Menu;
 import br.hospital.menu.Tela;
@@ -11,13 +11,21 @@ import br.hospital.utils.Verificador;
 public class Medico extends Pessoa{
   private String crm, especialidade;
   private double custo;
-  private ArrayList<String> agenda;
 
-  public Medico(String nome, String cpf, int idade, String crm, double custo) {
+  private final HashMap<String, Boolean> agenda = new HashMap<>();
+
+  {
+    for (int i = 8; i < 23; i++) {
+      agenda.put(String.format("%02d:00", i), true);
+      agenda.put(String.format("%02d:30", i), true);
+    }
+  }
+
+  public Medico(String nome, String cpf, int idade, String crm, String especialidade, double custo) {
     super(nome, cpf, idade);
     this.crm = crm;
+    this.especialidade = especialidade;
     this.custo = custo;
-    this.agenda = new ArrayList<>();
   }
 
   public static void cadastroMedico() throws IOException {
@@ -41,7 +49,7 @@ public class Medico extends Pessoa{
 
     Tela.exibirMensagem(2, 8, ("Médico cadastrado cadastrado!"));
     Tela.exibirMensagem(2, 9, ("Nome: " + nome + " CRM: " + crm + " Especialidade: " + especialidade + " Custo:" + custo));
-    Medico novoMedico = new Medico(nome.toUpperCase(), cpf.replace(".", "").replace("-", ""), Integer.parseInt(idade), crm, Double.parseDouble(custo));
+    Medico novoMedico = new Medico(nome.toUpperCase(), cpf.replace(".", "").replace("-", ""), Integer.parseInt(idade), crm, especialidade.toUpperCase(), Double.parseDouble(custo));
     RepositorioJson<Medico> repo = new RepositorioJson(Medico[].class, "dados_medicos.json");
     repo.adicionar(novoMedico);
     Menu.pausa(1500);
@@ -68,10 +76,34 @@ public class Medico extends Pessoa{
     return custo;
   }
 
-  public void setAgenda(ArrayList<String> agenda) {
-    this.agenda = agenda;
+  public static void mudarDisponibilidade() throws IOException {
+    int linha = 1;
+    Tela.exibirMensagem(1, linha, "Nome do médico:");
+    String nomeMedico = Inputs.lerInput(17, linha, Verificador::palavraValida, "Nome inválido, use apenas letras.");
+
+    Medico medico = Medico.procurarNomeMedico(nomeMedico);
+    if (medico != null && medico.mudarDisponibilidadePossivel()) {
+      Tela.exibirMensagem(1, linha++, "Disponibilidade Alterada");
+    } else {
+      Tela.exibirMensagem(1, linha++, "Escolha um médico e um horarío validos.");
+    }
+    Menu.pausa();
   }
-  public ArrayList<String> getAgenda() {
+
+  public boolean mudarDisponibilidadePossivel() throws IOException {
+    int linha = 1;
+    Tela.exibirMensagem(1, linha, "De qual horário você quer mudar a disponibilade?");
+    String horario = Inputs.lerInput(50, linha, Verificador::horarioValido, "Formato de horario inválido");
+    Tela.exibirMensagem(1, linha++, "Disponibilade?");
+    String disponibilidade = Inputs.lerInput(16, linha, Verificador::palavraValida, "Digite Disponível ou Indisponível").equalsIgnoreCase("DISPONÍVEL") ? "DISPONÍVEL" : "INDISPONÍVEL";
+    if (this.getAgenda().containsKey(horario)) {
+    this.getAgenda().put(horario, disponibilidade.equalsIgnoreCase("DISPONÍVEL"));
+    } else {
+      return false;
+    }
+    return true;
+  }
+  public HashMap<String, Boolean> getAgenda() {
     return agenda;
   }
 
