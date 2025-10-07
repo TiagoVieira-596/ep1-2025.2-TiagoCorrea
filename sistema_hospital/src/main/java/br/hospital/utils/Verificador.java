@@ -101,4 +101,15 @@ public class Verificador {
   public static boolean planoDeSaudeValido(String plano) {
     return PLANOS_VALIDOS.contains(plano.toUpperCase());
   }
+  
+  public static boolean dataAntesDaOutra(String data1, String data2) {
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+      LocalDate dataInput1 = LocalDate.parse(data1, formatador);
+      LocalDate dataInput2 = LocalDate.parse(data2, formatador);
+      return dataInput1.isBefore(dataInput2);
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
 }

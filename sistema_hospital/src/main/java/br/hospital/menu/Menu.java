@@ -11,6 +11,7 @@ import br.hospital.model.Internacao;
 import br.hospital.model.Medico;
 import br.hospital.model.Paciente;
 import br.hospital.model.PacienteEspecial;
+import br.hospital.model.Relatorio;
 
 public class Menu {
   public static void criarMenu(List<String> opcoes, String mensagem) throws IOException {
@@ -51,17 +52,33 @@ public class Menu {
   private static boolean lerEscolha(String item) throws IOException {
       Tela.limpar();
       switch (item) {
+        // menu principal
         case "Paciente" -> criarMenu(List.of("Cadastrar paciente", "Agendar consulta", "Virar paciente especial", "Visualizar consultas", "Cancelar consulta", "Voltar"), "O que deseja fazer?");
-        case "Médico" -> criarMenu(List.of("Cadastrar médico", "Concluir consulta", "Internar paciente", "Concluir internação", "Cancelar internação", "Voltar"), "O que deseja fazer?");
+        case "Médico" -> criarMenu(List.of("Cadastrar médico", "Alterar disponibilidade", "Concluir consulta", "Internar paciente", "Concluir internação", "Cancelar internação", "Voltar"), "O que deseja fazer?");
+        case "Relatórios" -> criarMenu(List.of("Pacientes cadastrados", "Médicos cadastrados", "Filtrar consultas", "Internações", "Estatísticas gerais", "Estatísticas planos", "Voltar"), "Que relatório deseja?");
+
+        // menu de ações do paciente
+        case "Cadastrar paciente" -> Paciente.cadastroPaciente();
+        case "Agendar consulta" -> Consulta.agendarConsulta();
         case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial();
+        case "Cancelar consulta" -> Consulta.cancelarConsulta();
+
+        // menu de ações do médico
+        case "Cadastrar médico" -> Medico.cadastroMedico();
+        case "Alterar disponibilidade" -> Medico.mudarDisponibilidade();
+        case "Concluir consulta" -> Consulta.concluirConsulta();
         case "Internar paciente" -> Internacao.realizarInternacao();
         case "Concluir internação" -> Internacao.concluirInternacao();
         case "Cancelar internação" -> Internacao.cancelarInternacao();
-        case "Agendar consulta" -> Consulta.agendarConsulta();
-        case "Concluir consulta" -> Consulta.concluirConsulta();
-        case "Cancelar consulta" -> Consulta.cancelarConsulta();
-        case "Cadastrar paciente" -> Paciente.cadastroPaciente();
-        case "Cadastrar médico" -> Medico.cadastroMedico();
+
+        // menu de relatórios        
+        case "Pacientes cadastrados" -> Relatorio.relatorioPacientes();
+        case "Médicos cadastrados" -> Relatorio.relatorioMedicos();
+        case "Internações" -> Relatorio.relatorioPacientesInternados();
+        case "Filtrar consultas" -> Relatorio.relatorioConsultasFiltradas();
+        case "Estatísticas gerais" -> Relatorio.relatorioEstatisticasGerais();
+        case "Estatísticas planos" -> Relatorio.relatorioPlanosDeSaude();
+        
         case "Voltar" -> {
           return false;
         }

@@ -1,5 +1,8 @@
 package br.hospital.model;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -11,13 +14,14 @@ import br.hospital.utils.RepositorioJson;
 import br.hospital.utils.Verificador;
 
 public class Consulta {
-  private final String cpfPaciente, nomeMedico, data, horario, local;
+  private final String cpfPaciente, nomeMedico, especialidade, data, horario, local;
   private final double custo;
   private String status, diagnostico, prescricao;
 
-  public Consulta(String cpfPaciente, String nomeMedico, String data, String horario, String local, String status, double custo) {
+  public Consulta(String cpfPaciente, String nomeMedico, String especialidade, String data, String horario, String local, String status, double custo) {
     this.cpfPaciente = cpfPaciente;
     this.nomeMedico = nomeMedico;
+    this.especialidade = especialidade;
     this.data = data;
     this.horario = horario;
     this.local = local;
@@ -104,6 +108,9 @@ public class Consulta {
   public String getNomeMedico() {
     return nomeMedico;
   }
+  public String getEspecialidade() {
+    return especialidade;
+  }
   public String getCpfPaciente() {
     return cpfPaciente;
   }
@@ -144,7 +151,7 @@ public class Consulta {
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
 
-    if (medico == null || paciente == null) return false;
+    if (medico == null || paciente == null || !medico.getAgenda().get(data)) return false;
     for (Consulta consulta : consultasMedico) {
       if (consulta.getData().equals(data) && consulta.getHorario().equals(horario) && consulta.getNomeMedico().equals(nomeMedico)) return false;
       if (consulta.getData().equals(data) && consulta.getHorario().equals(horario) && consulta.getLocal().equals(local)) return false;
@@ -155,7 +162,7 @@ public class Consulta {
       int descontoPlano = descontos.get(pacienteEspecial.getPlanoDeSaude());
       custoConsulta *= (1 - (descontoPlano / 100.0));
     }
-    Consulta consultaAgendada = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", custoConsulta);
+    Consulta consultaAgendada = new Consulta(cpfPaciente, nomeMedico, medico.getEspecialidade(), data, horario, local, "AGENDADA", custoConsulta);
     paciente.novaConsulta(consultaAgendada);
     paciente.atualizarPorCpf(cpfPaciente);
     repoConsulta.adicionar(consultaAgendada);
@@ -169,7 +176,7 @@ public class Consulta {
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
     if (medico == null || paciente == null) return false;
 
-    Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", 0);
+    Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, medico.getEspecialidade(), data, horario, local, "AGENDADA", 0);
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
 
     for (Consulta consulta : consultasMedico) {
@@ -201,7 +208,7 @@ public class Consulta {
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
     if (medico == null || paciente == null) return false;
 
-    Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", 0);
+    Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, medico.getEspecialidade(), data, horario, local, "AGENDADA", 0);
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
 
     for (Consulta consulta : consultasMedico) {
@@ -217,6 +224,16 @@ public class Consulta {
       }
     }
     return false;
+  }
+
+  public boolean isPassada() {
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+      LocalDate dataConsulta = LocalDate.parse(getData(), formatador);
+      return dataConsulta.isBefore(LocalDate.now());
+    } catch (DateTimeParseException e) {
+      return false;
+    }
   }
 
   @Override

@@ -20,7 +20,7 @@ public class Inputs {
           if (verificador == null || verificador.test(input.toString())) {
             break;
           } else {
-            inputInvalido(col, row + 1, mensagem);
+            inputInvalido(5, row + 1, mensagem);
             continue;
           }
         } else if (tecla.getKeyType() == KeyType.Backspace && input.length() > 0) {

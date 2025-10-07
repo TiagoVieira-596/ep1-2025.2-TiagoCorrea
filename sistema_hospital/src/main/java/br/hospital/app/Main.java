@@ -16,6 +16,6 @@ public class Main {
         TextGraphics tg = tela.newTextGraphics();
         Terminal terminal = new DefaultTerminalFactory().createTerminal();
         Tela.configurar(tela, tg, terminal);
-        Menu.criarMenu(List.of("Paciente", "Médico", "Sair"), "Olá! Que serviços quer utilizar?");
+        Menu.criarMenu(List.of("Paciente", "Médico", "Relatórios", "Sair"), "Olá! Que serviços quer utilizar?");
     }
 }

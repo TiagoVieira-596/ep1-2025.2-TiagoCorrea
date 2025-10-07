@@ -13,16 +13,17 @@ import br.hospital.utils.Verificador;
 public class Internacao {
   private final String cpfPaciente, nomeMedico, dataDeEntrada;
   private final int quarto;
-  private final double custo;
+  private final double custoTotal, custoComPlano;
   private String dataDeSaida;
 
-  public Internacao(String cpfPaciente, String nomeMedico, String dataDeEntrada, int quarto, double custo) {
+  public Internacao(String cpfPaciente, String nomeMedico, String dataDeEntrada, int quarto, double custoTotal, double custoComPlano) {
     this.cpfPaciente = cpfPaciente;
     this.nomeMedico = nomeMedico;
     this.dataDeEntrada = dataDeEntrada;
     this.dataDeSaida = "Ainda internado";
     this.quarto = quarto;
-    this.custo = custo;
+    this.custoTotal = custoTotal;
+    this.custoComPlano = custoComPlano;
   }
 
   public static void realizarInternacao() throws IOException {
@@ -95,7 +96,7 @@ public class Internacao {
       custoInternacao *= (1 - (descontoPlano / 100.0));
     }
 
-    Internacao internacao = new Internacao(cpfPaciente, nome, dataDeEntrada, quarto, Math.round(custoInternacao));
+    Internacao internacao = new Internacao(cpfPaciente, nome, dataDeEntrada, quarto, custo, Math.round(custoInternacao));
     paciente.novaInternacao(internacao);
     paciente.atualizarPorCpf(cpfPaciente);
     repoInternacao.adicionar(internacao);
@@ -109,9 +110,9 @@ public class Internacao {
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
-    if (medico == null || paciente == null) return false;
+    if (medico == null || paciente == null || Verificador.dataAntesDaOutra(dataDeEntrada, dataDeSaida)) return false;
 
-    Internacao dadosDaInternacao = new Internacao(cpfPaciente, nomeMedico, dataDeEntrada, quarto, 0);
+    Internacao dadosDaInternacao = new Internacao(cpfPaciente, nomeMedico, dataDeEntrada, quarto, 0, 0);
     List<Internacao> internacoes = repoInternacao.filtrar(p -> p.getCpf().equals(cpfPaciente));
 
     for (Internacao internacao : internacoes) {
@@ -136,7 +137,7 @@ public class Internacao {
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
     if (medico == null || paciente == null) return false;
 
-    Internacao dadosDaInternacao = new Internacao(cpfPaciente, nomeMedico, dataDeEntrada, quarto, 0);
+    Internacao dadosDaInternacao = new Internacao(cpfPaciente, nomeMedico, dataDeEntrada, quarto, 0, 0);
     List<Internacao> internacoes = repoInternacao.filtrar(p -> p.getCpf().equals(cpfPaciente));
 
     for (Internacao internacao : internacoes) {
@@ -159,6 +160,18 @@ public class Internacao {
   }
   public String getCpf() {
     return cpfPaciente;
+  }
+  public double getCustoTotal() {
+    return custoTotal;
+  }
+  public double getCustoComPlano() {
+    return custoComPlano;
+  }
+  public String getDataDeEntrada() {
+    return dataDeEntrada;
+  }
+  public String getDataDeSaida() {
+    return dataDeSaida;
   }
 
   public void setDataDeSaida(String dataDeSaida) {

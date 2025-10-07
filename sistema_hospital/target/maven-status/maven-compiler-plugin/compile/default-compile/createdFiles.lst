@@ -1,5 +1,6 @@
 br/hospital/model/Consulta.class
 br/hospital/model/PacienteEspecial.class
+br/hospital/model/Relatorio.class
 br/hospital/utils/Verificador.class
 br/hospital/utils/Inputs.class
 br/hospital/model/Internacao.class
