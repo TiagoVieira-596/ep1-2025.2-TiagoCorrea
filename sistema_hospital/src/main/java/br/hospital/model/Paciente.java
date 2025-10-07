@@ -48,8 +48,8 @@ public class Paciente extends Pessoa{
     }
     consultas.add(consulta);
   }
-  public List<Consulta> getConsultas() {
-    return new ArrayList<>(consultas);
+  public ArrayList<Consulta> getConsultas() {
+    return consultas;
   }
 
   public void novaInternacao(Internacao internacao) {
@@ -58,8 +58,8 @@ public class Paciente extends Pessoa{
     }
     internacoes.add(internacao);
   }
-  public List<Internacao> getInternacoes() {
-    return new ArrayList<>(internacoes);
+  public ArrayList<Internacao> getInternacoes() {
+    return internacoes;
   }
 
   public static Paciente procurarCpfPaciente(String cpf) {

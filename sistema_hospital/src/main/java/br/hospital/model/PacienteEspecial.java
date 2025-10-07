@@ -14,8 +14,8 @@ public class PacienteEspecial extends Paciente {
   private static final HashMap<String, Integer> descontos = new HashMap<>();
 
 static {
-    descontos.put("CASSI", 100);
-    descontos.put("UNIMED", 80);
+    descontos.put("CASSI", 90);
+    descontos.put("UNIMED", 65);
     descontos.put("AMIL", 75);
     descontos.put("BRADESCO SAÚDE", 50);
     descontos.put("SULAMÉRICA", 40);

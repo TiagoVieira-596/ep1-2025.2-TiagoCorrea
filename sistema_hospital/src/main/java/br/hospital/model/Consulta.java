@@ -139,8 +139,6 @@ public class Consulta {
 
   public static boolean tentarAgendarConsulta(String cpfPaciente, String nomeMedico, String data, String horario, String local) {
     RepositorioJson<Consulta> repoConsulta = new RepositorioJson(Consulta[].class, "dados_consultas.json");
-    RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
-    RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
@@ -169,9 +167,11 @@ public class Consulta {
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
+    if (medico == null || paciente == null) return false;
+
     Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", 0);
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
-    if (medico == null || paciente == null) return false;
+
     for (Consulta consulta : consultasMedico) {
       if (consulta.equals(dadosDaConsulta)) {
         for (Consulta consultaPaciente : paciente.getConsultas()) {
@@ -199,9 +199,11 @@ public class Consulta {
 
     Paciente paciente = Paciente.procurarCpfPaciente(cpfPaciente);
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
+    if (medico == null || paciente == null) return false;
+
     Consulta dadosDaConsulta = new Consulta(cpfPaciente, nomeMedico, data, horario, local, "AGENDADA", 0);
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
-    if (medico == null || paciente == null) return false;
+
     for (Consulta consulta : consultasMedico) {
       if (consulta.equals(dadosDaConsulta)) {
         for (Consulta consultaPaciente : paciente.getConsultas()) {
