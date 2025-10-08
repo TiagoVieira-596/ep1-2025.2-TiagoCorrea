@@ -12,6 +12,7 @@ public class Medico extends Pessoa{
   private String crm, especialidade;
   private double custo;
 
+  // cria a agenda de horários disponíveis para agendamento
   private final HashMap<String, Boolean> agenda = new HashMap<>();
 
   {
@@ -28,6 +29,7 @@ public class Medico extends Pessoa{
     this.custo = custo;
   }
 
+  // pega os dados e cadastra um novo médico
   public static void cadastroMedico() throws IOException {
     Tela.exibirMensagem(2, 1, "Nome completo do médico:");
     String nome = Inputs.lerInput(27, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
@@ -55,27 +57,7 @@ public class Medico extends Pessoa{
     Menu.pausa(1500);
   }
 
-  public void setCrm(String crm) {
-    this.crm = crm;
-  }
-  public String getCrm() {
-    return crm;
-  }
-
-  public void setEspecialidade(String especialidade) {
-    this.especialidade = especialidade;
-  }
-  public String getEspecialidade() {
-    return especialidade;
-  }
-
-  public void setCusto(double custo) {
-    this.custo = custo;
-  }
-  public double getCusto() {
-    return custo;
-  }
-
+  // usado para iniciar a mudança de disponibilidade do médico
   public static void mudarDisponibilidade() throws IOException {
     int linha = 1;
     Tela.exibirMensagem(1, linha, "Nome do médico:");
@@ -90,6 +72,7 @@ public class Medico extends Pessoa{
     Menu.pausa();
   }
 
+  // muda a disponibilidade de um horário específico da agenda de um médico
   public boolean mudarDisponibilidadePossivel() throws IOException {
     int linha = 1;
     Tela.exibirMensagem(1, linha, "De qual horário você quer mudar a disponibilade?");
@@ -103,10 +86,8 @@ public class Medico extends Pessoa{
     }
     return true;
   }
-  public HashMap<String, Boolean> getAgenda() {
-    return agenda;
-  }
 
+  // encontra um médico salvo específico pelo nome
   public static Medico procurarNomeMedico(String nomeMedico) {
     RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
     return repoMedico.buscar(p -> p.getNome().equals(nomeMedico));
@@ -115,6 +96,18 @@ public class Medico extends Pessoa{
     RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
     return repoMedico.buscar(p -> p.getCrm().equals(crmMedico));
   }
+
+  // getters e setters dos dados de médicos
+  public void setCrm(String crm) { this.crm = crm; }
+  public String getCrm() { return crm; }
+
+  public void setEspecialidade(String especialidade) { this.especialidade = especialidade;  }
+  public String getEspecialidade() { return especialidade; }
+
+  public void setCusto(double custo) { this.custo = custo; }
+  public double getCusto() { return custo; }
+
+  public HashMap<String, Boolean> getAgenda() { return agenda; }
 
   @Override
   public String toString() {

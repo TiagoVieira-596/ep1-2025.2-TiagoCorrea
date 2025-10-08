@@ -25,6 +25,7 @@ public class RepositorioJson<T> {
     this.gson = new GsonBuilder().setPrettyPrinting().create();
   }
 
+  // lista todos os dados de um arquivo json
   public List<T> listar() {
     try {
         Path caminho = Path.of(arquivo);
@@ -38,6 +39,8 @@ public class RepositorioJson<T> {
       return new ArrayList<>();
     }
   }
+
+  // pega uma lista de objetos e salva todos dentro de um arquivo json
   public void salvarTodos(List<T> lista) {
     try {
       Path caminho = Path.of(arquivo);
@@ -50,6 +53,7 @@ public class RepositorioJson<T> {
     }
   }
 
+  // atualiza um objeto específico dentro de um arquivo, buscando por um filtro
   public void atualizar(Predicate<T> filtro, T novoObjeto) {
     List<T> lista = listar();
     boolean atualizado = false;
@@ -69,18 +73,21 @@ public class RepositorioJson<T> {
     }
   }
 
+  // adiciona um objeto novo no fim de um arquivo json
   public void adicionar(T objeto) {
     List<T> lista = listar();
     lista.add(objeto);
     salvarTodos(lista);
   }
 
+  // remove um objeto específico de um arquivo
   public boolean remover(T objeto) {
     List<T> lista = listar();
     boolean removido = lista.remove(objeto);
     salvarTodos(lista);
     return removido;
   }
+  // remove o objeto encontrado pelo filtro passado
   public boolean remover(Predicate<T> filtro) {
     List<T> lista = listar();
     boolean removido = lista.removeIf(filtro);
@@ -88,10 +95,12 @@ public class RepositorioJson<T> {
     return removido;
   }
 
+  // busca o primeiro objeto a se encaixar no padrão buscado
   public T buscar(Predicate<T> filtro) {
     return listar().stream().filter(filtro).findFirst().orElse(null);
   }
 
+  // encontra todos objetos que seguem o filtro buscado
   public List<T> filtrar(Predicate<T> filtro) {
     return listar().stream().filter(filtro).toList();
   }

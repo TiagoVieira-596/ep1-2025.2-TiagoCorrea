@@ -24,6 +24,7 @@ public class Paciente extends Pessoa{
     this.internacoes = new ArrayList<>(internacoes);
   }
 
+  // cadastra um nove paciente na base de dados
   public static void cadastroPaciente() throws IOException {
     Tela.exibirMensagem(2, 1, "Nome completo do paciente:");
     String nome = Inputs.lerInput(29, 1, Verificador::palavraValida, "Nome inválido: use apenas letras.");
@@ -42,26 +43,25 @@ public class Paciente extends Pessoa{
     Menu.pausa(1500);
   }
 
+  // adiciona uma consulta ao histórico do paciente
   public void novaConsulta(Consulta consulta) {
     if (consultas == null) {
         consultas = new ArrayList<>();
     }
     consultas.add(consulta);
   }
-  public ArrayList<Consulta> getConsultas() {
-    return consultas;
-  }
+  public ArrayList<Consulta> getConsultas() { return consultas; }
 
+  // adiciona uma nova internação ao histórico do paciente
   public void novaInternacao(Internacao internacao) {
     if (internacoes == null) {
         internacoes = new ArrayList<>();
     }
     internacoes.add(internacao);
   }
-  public ArrayList<Internacao> getInternacoes() {
-    return internacoes;
-  }
+  public ArrayList<Internacao> getInternacoes() { return internacoes; }
 
+  // encontra um paciente na base de dados por meio do cpf
   public static Paciente procurarCpfPaciente(String cpf) {
     RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
     RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
@@ -72,6 +72,7 @@ public class Paciente extends Pessoa{
     return paciente;
   }
 
+  // atualiza os dados de um paciente encontrando ele pelo cpf
   public void atualizarPorCpf(String cpf) {
     RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
     RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");

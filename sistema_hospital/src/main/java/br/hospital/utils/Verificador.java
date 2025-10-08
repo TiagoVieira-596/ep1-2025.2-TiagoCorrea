@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 public class Verificador {
@@ -21,6 +22,7 @@ public class Verificador {
     "CASSI", "UNIMED", "NOTREDAME INTERMÉDICA", "AMIL", "SULAMÉRICA", "BRADESCO SAÚDE", "OUTRO"
   );
 
+  // verifica se o cpf é válido
   public static boolean cpfValido(String cpf) {
     String numerosCpf = cpf.replace(".", "").replace("-", "");
     if (!numerosCpf.matches("\\d{11}") || numerosCpf.matches("(\\d)\\1{10}")) {
@@ -43,22 +45,19 @@ public class Verificador {
     return true;
   }
 
-  public static Set<String> getPLANOS_VALIDOS() {
-    return PLANOS_VALIDOS;
-  }
+  // lista os planos válidos
+  public static Set<String> getPLANOS_VALIDOS() { return PLANOS_VALIDOS;}
 
-  public static boolean numeroValido(String idade) {
-    return idade.matches("^\\d+$");
-  }
+  // verifica se um número é válido
+  public static boolean numeroValido(String idade) { return idade.matches("^\\d+$"); }
 
-  public static boolean idadeValida(String idade) {
-    return idade.matches("^\\d{1,3}$");
-  }
+  // permite idades positivas de no máximo 3 digitos
+  public static boolean idadeValida(String idade) { return idade.matches("^\\d{1,3}$"); }
 
-  public static boolean palavraValida(String resposta) {
-    return resposta.matches("^[\\p{L}]+(\\s[\\p{L}]+)*$");
-  }
+  // permite palavras sem números ou caractéres especiais
+  public static boolean palavraValida(String resposta) { return resposta.matches("^[\\p{L}]+(\\s[\\p{L}]+)*$"); }
 
+  // verifica se o crm segue o padrão
   public static boolean crmValido(String crm) {
 
     if (!crm.matches("^\\d{4,7}/[A-Z]{2}$")) return false;
@@ -67,6 +66,7 @@ public class Verificador {
     return ESTADOS_VALIDOS.contains(uf);
   }
 
+  // verifica se a especialidade é válida
   public static boolean especialidadeValida(String especialidade) {
     if (!palavraValida(especialidade)) {
       return false;
@@ -74,6 +74,7 @@ public class Verificador {
     return ESPECIALIDADES_VALIDAS.contains(especialidade.toUpperCase());
   }
 
+  // testa se a data segue o padrão de data e não é passada
   public static boolean dataValida(String data) {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     try {
@@ -84,6 +85,7 @@ public class Verificador {
     }
   }
 
+  // verifica se o input segue o padrão de horário
   public static boolean horarioValido(String horario) {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("HH:mm");
     try {
@@ -94,14 +96,17 @@ public class Verificador {
     }
   }
 
+  // verifica se o input é um dos estados válidos
   public static boolean localValido(String local) {
     return ESTADOS_VALIDOS.contains(local.toUpperCase());
   }
 
+  // verifica se um plano está na lista válida
   public static boolean planoDeSaudeValido(String plano) {
     return PLANOS_VALIDOS.contains(plano.toUpperCase());
   }
   
+  // vê se uma data vem antes de outra
   public static boolean dataAntesDaOutra(String data1, String data2) {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     try {
@@ -111,5 +116,13 @@ public class Verificador {
     } catch (DateTimeParseException e) {
       return false;
     }
+  }
+
+  // verfica a diferença entre datas
+  public static long calcularDiferencaDeDias(String dataInicio, String dataFim) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDate inicio = LocalDate.parse(dataInicio, formatter);
+    LocalDate fim = LocalDate.parse(dataFim, formatter);
+    return ChronoUnit.DAYS.between(inicio, fim);
   }
 }

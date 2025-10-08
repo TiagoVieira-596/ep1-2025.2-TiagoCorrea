@@ -11,6 +11,7 @@ import br.hospital.utils.RepositorioJson;
 import br.hospital.utils.Verificador;
 
 public class PacienteEspecial extends Paciente {
+  // lista os planos de saúde disponíveis e seus descontos
   private static final HashMap<String, Integer> descontos = new HashMap<>();
 
 static {
@@ -32,16 +33,7 @@ static {
     this.planoDeSaude = planoDeSaude;
   }
 
-  public String getPlanoDeSaude() {
-    return planoDeSaude;
-  }
-  public void setPlanoDeSaude(String planoDeSaude) {
-    this.planoDeSaude = planoDeSaude;
-  }
-  public static HashMap<String, Integer> getDescontos() {
-    return descontos;
-  }
-
+  // o usuário escolhe um plano à adicionar a um paciente específico
   public static void virarPacienteEspecial() throws IOException {
     int linhaAtual = 0;
     for (String plano : Verificador.getPLANOS_VALIDOS()) {
@@ -61,6 +53,7 @@ static {
     Menu.pausa(2000);
   }
 
+  // tenta, se possível, adicionar um novo paciente especial ao save
   public static boolean tentarCriarPacienteEspecial(String cpfPaciente, String plano) {
     RepositorioJson<Paciente> repoPaciente = new RepositorioJson(Paciente[].class, "dados_pacientes.json");
     RepositorioJson<PacienteEspecial> repoPacienteEspecial = new RepositorioJson(PacienteEspecial[].class, "dados_pacientes_especiais.json");
@@ -77,6 +70,10 @@ static {
     }
     return true;
   }
+
+  public String getPlanoDeSaude() { return planoDeSaude; }
+  public void setPlanoDeSaude(String planoDeSaude) { this.planoDeSaude = planoDeSaude; }
+  public static HashMap<String, Integer> getDescontos() { return descontos; }
 
   @Override
   public String toString() {

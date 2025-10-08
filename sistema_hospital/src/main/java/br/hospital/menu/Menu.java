@@ -14,6 +14,7 @@ import br.hospital.model.PacienteEspecial;
 import br.hospital.model.Relatorio;
 
 public class Menu {
+  // recebe uma lista de opções, coloca elas em um menu e permite a navegação/escolha entre elas
   public static void criarMenu(List<String> opcoes, String mensagem) throws IOException {
       int selecionado = 0;
 
@@ -49,6 +50,7 @@ public class Menu {
       }
   }
 
+  // método para interpretar as escolhas do usuário
   private static boolean lerEscolha(String item) throws IOException {
       Tela.limpar();
       switch (item) {
@@ -91,6 +93,7 @@ public class Menu {
       return true;
   }
 
+  // pausa o menu por um tempo determinado
   public static void pausa(int tempo) {
     try {
       Thread.sleep(tempo);
@@ -101,6 +104,7 @@ public class Menu {
     }
   }
 
+  // sobrecarga para pausar o menu com um tempo fixo de 1 segundo
   public static void pausa() {
     try {
       Thread.sleep(1000);

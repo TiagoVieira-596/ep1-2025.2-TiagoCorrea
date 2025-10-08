@@ -12,10 +12,13 @@ import br.hospital.menu.Tela;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        // criar os objetos para a manipulação do terminal
         Screen tela = new DefaultTerminalFactory().createScreen();
         TextGraphics tg = tela.newTextGraphics();
         Terminal terminal = new DefaultTerminalFactory().createTerminal();
         Tela.configurar(tela, tg, terminal);
+
+        // fazer o display do menu principal no terminal
         Menu.criarMenu(List.of("Paciente", "Médico", "Relatórios", "Sair"), "Olá! Que serviços quer utilizar?");
     }
 }

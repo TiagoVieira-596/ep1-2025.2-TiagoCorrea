@@ -63,6 +63,7 @@ public class Inputs {
     return input.toString().trim();
   }
 
+  // imprime uma mensagem se um input não é válido
   public static void inputInvalido(int col, int row, String mensagem) throws IOException{
     Tela.exibirMensagem(col, row, mensagem);
     Menu.pausa(1500);
