@@ -104,18 +104,18 @@ Desenvolvimento de um sistema de gerenciamento hospitalar utilizando os conceito
 ## Prints da Execução
 
 1. Menus Principais:  
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print1.png)
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print2.png)
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print5.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print1.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print2.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print5.png)
 
 2. Cadastro de Médico:  
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print3.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print3.png)
 
 3. Cadastro de Paciente:  
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print6.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print6.png)
 
 4. Relatório de ?:  
-   (/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print7.png)
+   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print7.png)
 
 ---
 
