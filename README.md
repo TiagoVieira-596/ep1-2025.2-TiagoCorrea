@@ -104,18 +104,20 @@ Desenvolvimento de um sistema de gerenciamento hospitalar utilizando os conceito
 ## Prints da Execução
 
 1. Menus Principais:  
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print1.png)
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print2.png)
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print5.png)
+   ![Alt text]<img width="277" height="104" alt="print1" src="https://github.com/user-attachments/assets/e21e6bf1-4fde-404b-b3a8-ec8c7b435b49" />
+   ![Alt text]<img width="239" height="157" alt="print2" src="https://github.com/user-attachments/assets/e5031c14-22f9-48eb-b8e4-c5691132d294" />
+   ![Alt text]<img width="289" height="158" alt="print5" src="https://github.com/user-attachments/assets/e30c9b98-b1dd-4508-a20a-5769c61efa4d" />
+
 
 2. Cadastro de Médico:  
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print3.png)
+   ![Alt text]<img width="411" height="135" alt="print3" src="https://github.com/user-attachments/assets/4d1c0f00-498d-4690-b2ff-01984e5584e0" />
+
 
 3. Cadastro de Paciente:  
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print6.png)
+   ![Alt text]<img width="448" height="105" alt="print6" src="https://github.com/user-attachments/assets/e25271b3-2107-4fc1-a83f-f0f715c62200" />
 
-4. Relatório de ?:  
-   ![Alt text](/home/tiago/trabalhos-OO-UnB/ep1-2025.2-TiagoCorrea/sistema_hospital/prints_execucao/print7.png)
+4. Relatório de médicos:  
+   ![Alt text](<img width="301" height="113" alt="print7" src="https://github.com/user-attachments/assets/7204d06c-3133-428b-9e99-ed1429e1a003" />)
 
 ---
 
