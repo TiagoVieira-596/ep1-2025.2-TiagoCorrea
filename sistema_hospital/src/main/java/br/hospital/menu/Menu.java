@@ -63,6 +63,7 @@ public class Menu {
         case "Cadastrar paciente" -> Paciente.cadastroPaciente();
         case "Agendar consulta" -> Consulta.agendarConsulta();
         case "Virar paciente especial" -> PacienteEspecial.virarPacienteEspecial();
+        case "Visualizar consultas" -> Paciente.visualizarConsultas();
         case "Cancelar consulta" -> Consulta.cancelarConsulta();
 
         // menu de ações do médico

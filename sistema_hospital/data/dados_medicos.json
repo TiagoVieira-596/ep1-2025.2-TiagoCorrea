@@ -1,0 +1,42 @@
+[
+  {
+    "crm": "12345/DF",
+    "especialidade": "CARDIOLOGIA",
+    "custo": 200.0,
+    "agenda": {
+      "08:00": true,
+      "21:00": true,
+      "20:30": true,
+      "22:30": true,
+      "09:30": true,
+      "10:30": true,
+      "13:00": true,
+      "11:00": true,
+      "17:00": true,
+      "16:30": true,
+      "12:30": true,
+      "18:30": true,
+      "15:00": true,
+      "14:30": true,
+      "19:00": true,
+      "19:30": true,
+      "22:00": true,
+      "20:00": true,
+      "09:00": true,
+      "21:30": true,
+      "08:30": true,
+      "10:00": true,
+      "12:00": true,
+      "15:30": true,
+      "14:00": true,
+      "17:30": true,
+      "11:30": true,
+      "16:00": true,
+      "13:30": true,
+      "18:00": true
+    },
+    "nome": "FABIANO",
+    "cpf": "07629066180",
+    "idade": 45
+  }
+]

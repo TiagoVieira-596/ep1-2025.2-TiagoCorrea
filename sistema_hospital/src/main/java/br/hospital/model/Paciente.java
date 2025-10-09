@@ -83,6 +83,29 @@ public class Paciente extends Pessoa{
     } 
   }
 
+  public static void visualizarConsultas() throws IOException {
+    int linha = 0;
+
+    Tela.exibirMensagem(1, linha, "CPF do paciente:");
+    String cpf = Inputs.lerInput(18, linha, Verificador::cpfValido, "CPF inválido.");
+
+    RepositorioJson<Consulta> repoConsulta = new RepositorioJson(Consulta[].class, "dados_consultas.json");
+
+    List<Consulta> consultas = repoConsulta.listar().stream()
+        .filter(c -> (cpf == null || c.getCpfPaciente().equals(cpf)))
+        .toList();
+
+    if (consultas.isEmpty()) {
+      Tela.exibirMensagem("Não foram encontradas consultas desse paciente.");
+      Menu.pausa();
+      return;
+    }
+    for (Consulta c : consultas) {
+      Tela.exibirMensagem(1, linha++, "- " + c.getData() + ", " + c.getEspecialidade() + ", Paciente: " + c.getCpfPaciente() + ", Médico: " + c.getNomeMedico());
+    }
+    Menu.pausa(linha * 2500);
+  }
+
   @Override
   public String toString() {
     return "Paciente: " + super.toString();

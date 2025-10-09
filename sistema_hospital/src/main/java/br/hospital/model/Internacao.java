@@ -13,7 +13,7 @@ import br.hospital.utils.Verificador;
 public class Internacao {
   private final String cpfPaciente, nomeMedico, dataDeEntrada;
   private final int quarto;
-  private final double custoTotal, custoComPlano;
+  private double custoTotal, custoComPlano;
   private String dataDeSaida;
 
   public Internacao(String cpfPaciente, String nomeMedico, String dataDeEntrada, int quarto, double custoTotal, double custoComPlano) {
@@ -140,23 +140,13 @@ public class Internacao {
         for (Internacao internacaoPaciente : paciente.getInternacoes()) {
           if (internacaoPaciente.equals(internacao)) {
             internacaoPaciente.setDataDeSaida(dataDeSaida);
+            // se o paciente tem plano
             if (paciente instanceof PacienteEspecial) {
               long diasInternado = Verificador.calcularDiferencaDeDias(internacaoPaciente.getDataDeEntrada(), dataDeSaida);
-
-              // Zera os custos se o a internação durou menos de uma semana e o paciente tem um plano
+              // Zera os custos se o a internação durou menos de uma semana
               if (diasInternado < 7) {
-                try {
-                  // pega o custo do plano
-                  java.lang.reflect.Field fieldCustoTotal = Internacao.class.getDeclaredField("custoTotal");
-                  java.lang.reflect.Field fieldCustoPlano = Internacao.class.getDeclaredField("custoComPlano");
-
-                  fieldCustoTotal.setAccessible(true);
-                  fieldCustoPlano.setAccessible(true);
-
-                  fieldCustoTotal.set(internacaoPaciente, 0.0);
-                  fieldCustoPlano.set(internacaoPaciente, 0.0);
-
-                } catch (NoSuchFieldException | IllegalAccessException e) {}
+                internacaoPaciente.setCustoTotal(0.0);
+                internacaoPaciente.setCustoComPlano(0.0);
               }
             }
             paciente.atualizarPorCpf(cpfPaciente);
@@ -207,7 +197,10 @@ public class Internacao {
   public String getDataDeEntrada() { return dataDeEntrada;}
   public String getDataDeSaida() { return dataDeSaida; }
 
+  // setters de dados alteráveis
   public void setDataDeSaida(String dataDeSaida) { this.dataDeSaida = dataDeSaida; }
+  public void setCustoTotal(double custoTotal) { this.custoTotal = custoTotal; }
+  public void setCustoComPlano(double custoComPlano) { this.custoComPlano = custoComPlano; }
 
   // sobrescritas para comparar internações por valor
   @Override

@@ -61,26 +61,27 @@ public class Medico extends Pessoa{
   public static void mudarDisponibilidade() throws IOException {
     int linha = 1;
     Tela.exibirMensagem(1, linha, "Nome do médico:");
-    String nomeMedico = Inputs.lerInput(17, linha, Verificador::palavraValida, "Nome inválido, use apenas letras.");
+    String nomeMedico = Inputs.lerInput(17, linha, Verificador::palavraValida, "Nome inválido, use apenas letras.").toUpperCase();
 
     Medico medico = Medico.procurarNomeMedico(nomeMedico);
-    if (medico != null && medico.mudarDisponibilidadePossivel()) {
-      Tela.exibirMensagem(1, linha++, "Disponibilidade Alterada");
+    if (medico != null && medico.mudarDisponibilidadePossivel(nomeMedico)) {
+      Tela.exibirMensagem("Disponibilidade Alterada");
     } else {
-      Tela.exibirMensagem(1, linha++, "Escolha um médico e um horarío validos.");
+      Tela.exibirMensagem("Escolha um médico e um horarío validos.");
     }
     Menu.pausa();
   }
 
   // muda a disponibilidade de um horário específico da agenda de um médico
-  public boolean mudarDisponibilidadePossivel() throws IOException {
-    int linha = 1;
+  public boolean mudarDisponibilidadePossivel(String nomeMedico) throws IOException {
+    int linha = 2;
     Tela.exibirMensagem(1, linha, "De qual horário você quer mudar a disponibilade?");
     String horario = Inputs.lerInput(50, linha, Verificador::horarioValido, "Formato de horario inválido");
-    Tela.exibirMensagem(1, linha++, "Disponibilade?");
-    String disponibilidade = Inputs.lerInput(16, linha, Verificador::palavraValida, "Digite Disponível ou Indisponível").equalsIgnoreCase("DISPONÍVEL") ? "DISPONÍVEL" : "INDISPONÍVEL";
+    Tela.exibirMensagem(1, linha + 1, "Disponibilade?");
+    String disponibilidade = Inputs.lerInput(16, linha + 1, Verificador::palavraValida, "Digite Disponível ou Indisponível").equalsIgnoreCase("DISPONÍVEL") ? "DISPONÍVEL" : "INDISPONÍVEL";
     if (this.getAgenda().containsKey(horario)) {
     this.getAgenda().put(horario, disponibilidade.equalsIgnoreCase("DISPONÍVEL"));
+    this.atualizarPorNome(nomeMedico);
     } else {
       return false;
     }
@@ -92,9 +93,15 @@ public class Medico extends Pessoa{
     RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
     return repoMedico.buscar(p -> p.getNome().equals(nomeMedico));
   }
+  // encontra um médico pelo crm
   public static Medico procurarCrmMedico(String crmMedico) {
     RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
     return repoMedico.buscar(p -> p.getCrm().equals(crmMedico));
+  }
+
+  public void atualizarPorNome(String nome) {
+    RepositorioJson<Medico> repoMedico = new RepositorioJson(Medico[].class, "dados_medicos.json");
+    repoMedico.atualizar(p -> p.getNome().equals(nome), this);
   }
 
   // getters e setters dos dados de médicos

@@ -105,9 +105,10 @@ public class Consulta {
 
     // filtra as consultas daquele médico específico
     List<Consulta> consultasMedico = repoConsulta.filtrar(p -> p.getNomeMedico().equals(nomeMedico));
-
     // retorna se o médico está ocupado ou não foram encontrados o médico ou paciente
-    if (medico == null || paciente == null || !medico.getAgenda().get(data)) return false;
+    if (medico == null || paciente == null) return false;
+    Boolean disponivel = medico.getAgenda().get(horario);
+    if (disponivel == null || !disponivel) return false;
     for (Consulta consulta : consultasMedico) {
       // duas consultas na mesma hora com o mesmo médico
       if (consulta.getData().equals(data) && consulta.getHorario().equals(horario) && consulta.getNomeMedico().equals(nomeMedico)) return false;

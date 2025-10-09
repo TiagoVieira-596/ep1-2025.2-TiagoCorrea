@@ -31,17 +31,20 @@ public class Relatorio {
     }
       for (Paciente p : todosPacientes) {
           Tela.exibirMensagem(1, linha, "Paciente: " + p.getNome() + " - CPF: " + p.getCpf());
-          linha += 2;
+          linha += 1;
           
           Tela.exibirMensagem(1, linha, "Consultas:");
+          linha += 1;
           for (Consulta c : p.getConsultas()) {
-              Tela.exibirMensagem(1, linha++, "- " + c.getData() + ", " + c.getEspecialidade() + ", " + "Doutor: " + c.getNomeMedico());
+              Tela.exibirMensagem(1, linha, "- " + c.getData() + ", " + c.getEspecialidade() + ", " + "Doutor: " + c.getNomeMedico());
+              linha += 1;
           }
-          linha += 2;
 
           Tela.exibirMensagem(1, linha, "Internações:");
+          linha += 1;
           for (Internacao i : p.getInternacoes()) {
-              Tela.exibirMensagem(1, linha++, "- Entrada: " + i.getDataDeEntrada() + ", Saída: " + i.getDataDeSaida());
+              Tela.exibirMensagem(1, linha, "- Entrada: " + i.getDataDeEntrada() + ", Saída: " + i.getDataDeSaida());
+              linha += 1;
           }
       }
     // esperar 2,5 segundos por linha printada
@@ -122,7 +125,7 @@ public class Relatorio {
     boolean internacaoEncontrada = false;
     for (Paciente p : todos) {
       for (Internacao i : p.getInternacoes()) {
-        if (i.getDataDeSaida() == null) {
+        if (i.getDataDeSaida().equals("Ainda internado")) {
           LocalDate entrada = LocalDate.parse(i.getDataDeEntrada(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
           long dias = ChronoUnit.DAYS.between(entrada, hoje);
           Tela.exibirMensagem(1, linha++, p.getNome() + " - Internado há " + dias + " dias - Quarto: " + i.getQuarto());
